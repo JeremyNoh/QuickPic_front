@@ -9,10 +9,10 @@ import {
 // Screens Import
 
 import Home from "./src/screens/Home";
-import SignUp from "./src/screens/SignUp";
+import Auth from "./src/screens/Auth";
 
 const Stack = createStackNavigator({
-  SignUp: SignUp,
+  Auth: Auth,
   Home: Home
 });
 
