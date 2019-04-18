@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState } from "react";
+import React from "react";
 import { View, Text, StyleSheet, TextInput } from "react-native";
 
 // Internal Component
@@ -7,21 +7,12 @@ import Container from "../components/Container";
 import Title from "../components/Title";
 
 // Libs Extenal
-import { Card, Button } from "react-native-elements";
 
 class Historic extends React.Component {
   constructor(props) {
     super(props);
   }
   state = {};
-
-  static navigationOptions = ({ navigation }) => ({
-    title: "QuickPic",
-    headerTintColor: TEXT_HEADER,
-    headerStyle: {
-      backgroundColor: BACKGROUND_HEADER
-    }
-  });
 
   render() {
     return (

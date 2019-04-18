@@ -1,5 +1,5 @@
-import React, { FunctionComponent, useState } from "react";
-import { View, Text, StyleSheet, TextInput } from "react-native";
+import React from "react";
+import { View, Text, StyleSheet, TextInput, AsyncStorage } from "react-native";
 
 // External Component
 
@@ -9,14 +9,15 @@ import {
   BACKGROUND_HEADER,
   TEXT_HEADER,
   BUTTON_COLOR_ONE,
-  BUTTON_COLOR_TWO,
-  BUTTON_COLOR_THREE
+  BUTTON_COLOR_TWO
 } from "../../utils/colors";
 import Container from "../components/Container";
 import Title from "../components/Title";
 
 // Libs Extenal
 import { Button, ButtonGroup } from "react-native-elements";
+
+import { connecteUser, registerUser } from "../../api/auth";
 
 class Auth extends React.Component {
   state = {
@@ -39,7 +40,7 @@ class Auth extends React.Component {
 
   componentDidMount() {}
 
-  updateIndex = selectedIndex => {
+  _updateIndex = selectedIndex => {
     this.setState({ selectedIndex });
   };
 
@@ -57,10 +58,29 @@ class Auth extends React.Component {
   };
 
   _register = () => {
-    this._submit();
+    let { user } = this.state;
+    registerUser(user)
+      .then(res => {
+        console.log("sa marche", res);
+      })
+      .catch(err => {
+        alert("Error please retry");
+
+        console.log(err, "dedededeede");
+      });
   };
 
   _connect = () => {
+    let { user } = this.state;
+    connecteUser(user)
+      .then(res => {
+        console.log("sa marche", res);
+      })
+      .catch(err => {
+        alert("Error please retry");
+        console.log(err, "dedededeede");
+      });
+
     this._submit();
   };
 
@@ -70,9 +90,9 @@ class Auth extends React.Component {
       <View style={{ marginTop: 20 }}>
         <TextInput
           style={styles.TextInput}
-          value={user.email}
-          placeholder="Email"
-          onChangeText={val => this.updateStateHandler("email", val)}
+          value={user.username}
+          placeholder="Username"
+          onChangeText={val => this.updateStateHandler("username", val)}
         />
         <TextInput
           style={styles.TextInput}
@@ -146,7 +166,7 @@ class Auth extends React.Component {
         <View style={{ position: "absolute", top: 70, alignItems: "center" }}>
           <Title title="QuickPic" />
           <ButtonGroup
-            onPress={this.updateIndex}
+            onPress={this._updateIndex}
             selectedIndex={selectedIndex}
             buttons={["Se Connecter", "S'inscrire"]}
             containerStyle={{
