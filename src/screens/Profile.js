@@ -15,14 +15,6 @@ class Profile extends React.Component {
   }
   state = {};
 
-  static navigationOptions = ({ navigation }) => ({
-    title: "QuickPic",
-    headerTintColor: TEXT_HEADER,
-    headerStyle: {
-      backgroundColor: BACKGROUND_HEADER
-    }
-  });
-
   render() {
     return (
       <Container>

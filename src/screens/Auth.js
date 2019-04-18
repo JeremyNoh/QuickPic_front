@@ -30,14 +30,6 @@ class Auth extends React.Component {
     selectedIndex: 0
   };
 
-  static navigationOptions = ({ navigation }) => ({
-    title: "QuickPic",
-    headerTintColor: TEXT_HEADER,
-    headerStyle: {
-      backgroundColor: BACKGROUND_HEADER
-    }
-  });
-
   componentDidMount() {}
 
   _updateIndex = selectedIndex => {

@@ -12,7 +12,7 @@ export const getRanking = userToken => {
     })
       .then(response => {
         if (!response.ok) {
-          reject(err);
+          reject("error");
         }
         return response.json();
       })
@@ -20,7 +20,7 @@ export const getRanking = userToken => {
         resolve(data);
       })
       .catch(err => {
-        reject(err);
+        reject("error");
       });
   });
 };

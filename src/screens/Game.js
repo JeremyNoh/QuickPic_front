@@ -13,14 +13,6 @@ import Title from "../components/Title";
 import { Loading } from "../components/Loading";
 
 class Game extends React.Component {
-  static navigationOptions = ({ navigation }) => ({
-    title: "Start The Game",
-    headerTintColor: "black",
-    headerStyle: {
-      backgroundColor: "red"
-    }
-  });
-
   constructor(props) {
     super(props);
   }
