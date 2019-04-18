@@ -125,6 +125,11 @@ class Home extends React.Component {
             text: `Home`,
             style: { color: "#fff" }
           }}
+          rightComponent={{
+            icon: "power",
+            color: "#fff",
+            onPress: () => this.props.navigation.navigate("SignedOut")
+          }}
         />
         <View style={{ alignItems: "center" }}>
           <ButtonGroup

@@ -1,5 +1,12 @@
 import React from "react";
-import { View, Text, StyleSheet, TextInput, AsyncStorage } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TextInput,
+  AsyncStorage,
+  Alert
+} from "react-native";
 
 // External Component
 
@@ -18,6 +25,7 @@ import Title from "../components/Title";
 import { Button, ButtonGroup } from "react-native-elements";
 
 import { connecteUser, registerUser } from "../../api/auth";
+import { saveInfo } from "../../utils/FuncNative";
 
 class Auth extends React.Component {
   state = {
@@ -53,27 +61,37 @@ class Auth extends React.Component {
     let { user } = this.state;
     registerUser(user)
       .then(res => {
-        console.log("sa marche", res);
+        Alert.alert(
+          "Inscription Réussi",
+          "Je t'invite à te connecter Pour Commencer à Jouer",
+          [{ text: "OK" }]
+        );
       })
       .catch(err => {
         alert("Error please retry");
-
         console.log(err, "dedededeede");
       });
   };
 
-  _connect = () => {
+  _connect = async () => {
     let { user } = this.state;
     connecteUser(user)
-      .then(res => {
-        console.log("sa marche", res);
+      .then(async res => {
+        let infoUser = {
+          nickname: res.data.user,
+          email: res.data.user,
+          uuid: res.data.user,
+          token: res.token
+        };
+        await AsyncStorage.setItem("infoUser", JSON.stringify(infoUser));
+        this._submit();
       })
       .catch(err => {
         alert("Error please retry");
-        console.log(err, "dedededeede");
+        console.log(err);
       });
 
-    this._submit();
+    // this._submit();
   };
 
   connectionView = () => {

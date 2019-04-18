@@ -1,5 +1,5 @@
 import React from "react";
-import { Platform, StatusBar } from "react-native";
+import { Platform, StatusBar, AsyncStorage } from "react-native";
 import {
   createStackNavigator,
   createBottomTabNavigator,
@@ -14,6 +14,7 @@ import Profile from "./src/screens/Profile";
 import History from "./src/screens/History";
 import Ranking from "./src/screens/Ranking";
 import Game from "./src/screens/Game";
+import SplashScreen from "./src/screens/SplashScreen";
 
 const headerStyle = {
   marginTop: Platform.OS === "android" ? StatusBar.currentHeight : 0
@@ -26,6 +27,12 @@ const SignedOut = createStackNavigator({
       title: "Sign In",
       headerStyle
     }
+  }
+});
+
+const AuthLoading = createStackNavigator({
+  SplashScreen: {
+    screen: SplashScreen
   }
 });
 
@@ -78,9 +85,21 @@ const SignedIn = createBottomTabNavigator(
   }
 );
 
-function canConnnect() {
-  return true;
-}
+canConnnect = async () => {
+  // return true;
+  const infoUser = await AsyncStorage.getItem("infoUser");
+  console.log(infoUser);
+
+  if (infoUser) {
+    console.log("YEAHHHHHH");
+
+    return true;
+  } else {
+    console.log("SHITTTT");
+
+    return false;
+  }
+};
 
 export default createAppContainer(
   createSwitchNavigator(
@@ -91,10 +110,13 @@ export default createAppContainer(
       Game,
       SignedOut: {
         screen: SignedOut
-      }
+      },
+      AuthLoading
     },
     {
-      initialRouteName: canConnnect() === true ? "SignedIn" : "SignedOut"
+      initialRouteName: "AuthLoading"
     }
   )
 );
+
+// canConnnect() === true ? "SignedIn" : "SignedOut";

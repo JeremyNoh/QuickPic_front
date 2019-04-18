@@ -44,7 +44,7 @@ export const connecteUser = user => {
     })
       .then(response => {
         if (!response.ok) {
-          reject("nulll");
+          reject("erreur");
         }
         return response.json();
       })
@@ -52,7 +52,7 @@ export const connecteUser = user => {
         resolve(data);
       })
       .catch(err => {
-        reject("nulll");
+        reject(err);
       });
   });
 };
