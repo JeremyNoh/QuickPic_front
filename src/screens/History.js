@@ -62,9 +62,8 @@ class Historic extends React.Component {
     getHistory(infoUser.uuid, infoUser.token)
       .then(res => {
         let result;
-        if (Object.entries(res).length === 0) {
-          // replace mock by null for delete test
-          result = HistoricPLayer;
+        if (res.hasOwnProperty("msg")) {
+          result = null;
         } else {
           result = res;
         }

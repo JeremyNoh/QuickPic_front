@@ -12,76 +12,90 @@ import {
 import { Button, ButtonGroup, Header } from "react-native-elements";
 import CardForPlay from "../components/CardForPlay";
 import { ScrollView } from "react-native-gesture-handler";
+import { getAllGames } from "../../api/game";
 
+// status
+// categoryLibelle
 const enCours = [
   {
     idGame: 1,
-    start_game: "2019-04-16T18:37:59.661Z",
-    end_game: "2019-04-16T19:45:59.661Z",
-    item: "velo"
+    startGame: "2019-04-16T18:37:59.661Z",
+    endGame: "2019-04-16T19:45:59.661Z",
+    itemLibelle: "velo",
+    categoryLibelle: "SPORT"
   },
   {
     idGame: 2,
-    start_game: "2019-04-16T19:37:59.661Z",
-    end_game: "2019-04-16T19:37:59.661Z",
-    item: "sac"
+    startGame: "2019-04-16T19:37:59.661Z",
+    endGame: "2019-04-16T19:37:59.661Z",
+    itemLibelle: "sac",
+    categoryLibelle: "SPORT"
   },
   {
     idGame: 3,
-    start_game: "2019-04-16T19:37:59.661Z",
-    end_game: "2019-04-16T19:37:59.661Z",
-    item: "chaussure"
+    startGame: "2019-04-16T19:37:59.661Z",
+    endGame: "2019-04-16T19:37:59.661Z",
+    itemLibelle: "chaussure",
+    categoryLibelle: "Vetement"
   }
 ];
 
 const later = [
   {
     idGame: 1,
-    start_game: "2019-04-16T19:37:59.661Z",
-    end_game: "2019-04-16T19:37:59.661Z",
-    item: "stylo"
+    startGame: "2019-04-16T19:37:59.661Z",
+    endGame: "2019-04-16T19:37:59.661Z",
+    itemLibelle: "stylo",
+    categoryLibelle: "Quotidien"
   },
   {
     idGame: 2,
-    start_game: "2019-04-16T19:37:59.661Z",
-    end_game: "2019-04-16T19:37:59.661Z",
-    item: "verre"
+    startGame: "2019-04-16T19:37:59.661Z",
+    endGame: "2019-04-16T19:37:59.661Z",
+    itemLibelle: "verre",
+    categoryLibelle: "Quotidien"
   },
   {
     idGame: 3,
-    start_game: "2019-04-16T19:37:59.661Z",
-    end_game: "2019-04-16T19:37:59.661Z",
-    item: "tee-shirt"
+    startGame: "2019-04-16T19:37:59.661Z",
+    endGame: "2019-04-16T19:37:59.661Z",
+    itemLibelle: "tee-shirt",
+    categoryLibelle: "Vetement"
   },
   {
     idGame: 4,
-    start_game: "2019-04-16T19:37:59.661Z",
-    end_game: "2019-04-16T19:37:59.661Z",
-    item: "tee-shirt"
+    startGame: "2019-04-16T19:37:59.661Z",
+    endGame: "2019-04-16T19:37:59.661Z",
+    itemLibelle: "tee-shirt",
+    categoryLibelle: "Vetement"
   },
   {
     idGame: 5,
-    start_game: "2019-04-16T19:37:59.661Z",
-    end_game: "2019-04-16T19:37:59.661Z",
-    item: "tee-shirt"
+    startGame: "2019-04-16T19:37:59.661Z",
+    endGame: "2019-04-16T19:37:59.661Z",
+    itemLibelle: "tee-shirt",
+    categoryLibelle: "Vetement"
   },
   {
     idGame: 3,
-    start_game: "2019-04-16T19:37:59.661Z",
-    end_game: "2019-04-16T19:37:59.661Z",
-    item: "tee-shirt"
+    startGame: "2019-04-16T19:37:59.661Z",
+    endGame: "2019-04-16T19:37:59.661Z",
+    itemLibelle: "tee-shirt",
+    categoryLibelle: "Vetement"
   },
   {
     idGame: 4,
-    start_game: "2019-04-16T19:37:59.661Z",
-    end_game: "2019-04-16T19:37:59.661Z",
-    item: "tee-shirt"
+    startGame: "2019-04-16T19:37:59.661Z",
+    endGame: "2019-04-16T19:37:59.661Z",
+    itemLibelle: "tee-shirt",
+    categoryLibelle: "Vetement"
   },
   {
     idGame: 5,
-    start_game: "2019-04-16T19:37:59.661Z",
-    end_game: "2019-04-16T19:37:59.661Z",
-    item: "tee-shirt"
+    startGame: "2019-04-16T19:37:59.661Z",
+    endGame: "2019-04-16T19:37:59.661Z",
+    itemLibelle: "tee-shirt",
+    categoryLibelle: "Vetement"
   }
 ];
 
@@ -90,14 +104,39 @@ class Home extends React.Component {
     super(props);
   }
   state = {
-    selectedIndex: 0
+    selectedIndex: 0,
+    allGames: [],
+    progressGame: [],
+    upcomingGame: []
   };
 
-  // async componentDidMount() {
-  //   const infoUserStr = await AsyncStorage.getItem("infoUser");
-  //   let infoUser = JSON.parse(infoUserStr);
-  //   console.log(infoUser);
-  // }
+  async componentDidMount() {
+    const infoUserStr = await AsyncStorage.getItem("infoUser");
+    let infoUser = JSON.parse(infoUserStr);
+
+    getAllGames(infoUser.token)
+      .then(res => {
+        console.log("AZERTYUIOP");
+
+        console.log(res);
+
+        let result;
+        let progressGame;
+        let upcomingGame;
+        if (res.hasOwnProperty("msg")) {
+          result = null;
+        } else {
+          result = res;
+          upcomingGame = res.filter(obj => obj.status === "upcoming");
+          progressGame = res.filter(obj => obj.status === "in progess");
+        }
+        this.setState({ allGames: result, upcomingGame, progressGame });
+      })
+      .catch(err => {
+        this.setState({ allGames: null });
+        console.log(err);
+      });
+  }
 
   _updateIndex = selectedIndex => {
     this.setState({ selectedIndex });
@@ -118,8 +157,10 @@ class Home extends React.Component {
   }
 
   render() {
-    let { selectedIndex } = this.state;
-    let fluxGame = selectedIndex === 0 ? enCours : later;
+    let { selectedIndex, progressGame, upcomingGame } = this.state;
+    // mock
+    // let fluxGame = selectedIndex === 0 ? enCours : later;
+    let fluxGame = selectedIndex === 0 ? progressGame : upcomingGame;
 
     return (
       <View style={{ paddingBottom: "15%" }}>
@@ -167,6 +208,7 @@ class Home extends React.Component {
             );
           })}
         </ScrollView>
+        {fluxGame.length < 1 && <Text h4> dedededed</Text>}
       </View>
     );
   }

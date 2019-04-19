@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, TouchableHighlight, Modal } from "react-native";
 
 // Libs Extenal
 import { Camera, Permissions, ImagePicker } from "expo";
@@ -19,7 +19,8 @@ class Game extends React.Component {
   state = {
     game: undefined,
     hasCameraPermission: null,
-    type: Camera.Constants.Type.back
+    type: Camera.Constants.Type.back,
+    modalVisible: false
   };
 
   async componentDidMount() {
@@ -34,13 +35,15 @@ class Game extends React.Component {
     }
   }
 
-  _noData = () => {
-    return <Text h4>Il n'y a pas de donnée </Text>;
-  };
+  _noData = () => <Text h4>Il n'y a pas de donnée </Text>;
 
   _pickImage = () => {
     console.log("lauch Caméra");
   };
+
+  setModalVisible(visible) {
+    this.setState({ modalVisible: visible });
+  }
 
   render() {
     let { game } = this.state;
@@ -76,7 +79,7 @@ class Game extends React.Component {
           buttonStyle={{ backgroundColor: "#042867" }}
         />
         <View style={{ marginTop: "30%", alignItems: "center" }}>
-          <Title title={game.item.toUpperCase()} />
+          <Title title={game.itemLibelle.toUpperCase()} />
           <CountDown
             until={220}
             onFinish={() => alert("finished")}
@@ -94,6 +97,36 @@ class Game extends React.Component {
             }}
             buttonStyle={{ backgroundColor: "#042867" }}
           />
+          <Modal
+            animationType="slide"
+            transparent={false}
+            visible={this.state.modalVisible}
+            onRequestClose={() => {
+              Alert.alert("Modal has been closed.");
+            }}
+          >
+            <View style={{ marginTop: 22 }}>
+              <View>
+                <Text>Hello World!</Text>
+
+                <TouchableHighlight
+                  onPress={() => {
+                    this.setModalVisible(!this.state.modalVisible);
+                  }}
+                >
+                  <Text>Hide Modal</Text>
+                </TouchableHighlight>
+              </View>
+            </View>
+          </Modal>
+
+          <TouchableHighlight
+            onPress={() => {
+              this.setModalVisible(true);
+            }}
+          >
+            <Text>Show Modal</Text>
+          </TouchableHighlight>
         </View>
       </View>
     );

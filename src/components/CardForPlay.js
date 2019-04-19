@@ -4,15 +4,15 @@ import { View, StyleSheet, Text } from "react-native";
 import { Card, ListItem } from "react-native-elements";
 import moment from "moment";
 export const CardForPlay = ({ props, onPress, inFuture }) => {
-  let titleCard = props.item;
+  let titleCard = props.itemLibelle;
   let timeRemaining =
-    moment.utc(moment(props.end_game).diff(moment(moment()))).format("HH:mm") +
+    moment.utc(moment(props.endGame).diff(moment(moment()))).format("HH:mm") +
     "min Restante";
   if (inFuture) {
     timeRemaining =
       "commence dans :  " +
       moment
-        .utc(moment(props.start_game).diff(moment(moment())))
+        .utc(moment(props.startGame).diff(moment(moment())))
         .format("HH:mm");
     titleCard = "à venir";
   }
@@ -54,7 +54,7 @@ export const CardForPlay = ({ props, onPress, inFuture }) => {
           subtitle={
             <View style={styles.subtitleView}>
               <Text style={[styles.ratingText, { fontWeight: "bold" }]}>
-                Sport
+                {props.categoryLibelle}
               </Text>
               <Text style={styles.ratingText}>{timeRemaining}</Text>
             </View>

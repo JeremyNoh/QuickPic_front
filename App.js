@@ -85,22 +85,6 @@ const SignedIn = createBottomTabNavigator(
   }
 );
 
-// canConnnect = async () => {
-//   // return true;
-//   const infoUser = await AsyncStorage.getItem("infoUser");
-//   console.log(infoUser);
-
-//   if (infoUser) {
-//     console.log("YEAHHHHHH");
-
-//     return true;
-//   } else {
-//     console.log("SHITTTT");
-
-//     return false;
-//   }
-// };
-
 export default createAppContainer(
   createSwitchNavigator(
     {
@@ -118,5 +102,3 @@ export default createAppContainer(
     }
   )
 );
-
-// canConnnect() === true ? "SignedIn" : "SignedOut";

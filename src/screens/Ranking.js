@@ -87,9 +87,7 @@ class Ranking extends React.Component {
       });
   }
 
-  _noData = () => {
-    return <Text h4>le Classement est null </Text>;
-  };
+  _noData = () => <Text h4>le Classement est null </Text>;
 
   render() {
     let { rankPLayer } = this.state;
