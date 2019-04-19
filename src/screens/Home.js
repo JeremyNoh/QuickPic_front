@@ -127,7 +127,7 @@ class Home extends React.Component {
           backgroundColor="#042867"
           centerComponent={{
             text: `Home`,
-            style: { color: "#fff" }
+            style: { color: "#fff", fontWeight: "bold" }
           }}
           rightComponent={{
             icon: "power",

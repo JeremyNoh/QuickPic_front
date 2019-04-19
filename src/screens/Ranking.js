@@ -75,7 +75,7 @@ class Ranking extends React.Component {
         if (Object.entries(res).length === 0) {
           result = null;
         } else {
-          let result = res.filter(obj => !obj.isCurrentUser);
+          result = res.filter(obj => !obj.isCurrentUser);
           let [valueTopPushFirst] = res.filter(obj => obj.isCurrentUser);
           result.unshift(valueTopPushFirst);
         }
@@ -106,7 +106,7 @@ class Ranking extends React.Component {
           backgroundColor="#042867"
           centerComponent={{
             text: `Classement Mondial`,
-            style: { color: "#fff" }
+            style: { color: "#fff", fontWeight: "bold" }
           }}
         />
         <ScrollView style={{ height: "100%" }}>

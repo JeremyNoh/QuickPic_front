@@ -25,9 +25,9 @@ export const getRanking = (userId, userToken) => {
   });
 };
 
-export const getHistory = userToken => {
+export const getHistory = (userId, userToken) => {
   return new Promise((resolve, reject) => {
-    fetch(BASE_URL + HISTORY, {
+    fetch(BASE_URL + HISTORY + userId, {
       method: "GET",
       headers: {
         Accept: "application/json",

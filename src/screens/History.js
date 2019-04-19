@@ -1,7 +1,6 @@
 import React from "react";
 import {
   View,
-  Text,
   StyleSheet,
   Alert,
   ScrollView,
@@ -15,44 +14,36 @@ import {
   BUTTON_COLOR_TWO
 } from "../../utils/colors";
 
+import { Text } from "react-native-elements";
+
 // Libs Extenal
 import { Header } from "react-native-elements";
 import CardRanking from "../components/CardRanking";
 import { Loading } from "../components/Loading";
 import { getHistory } from "../../api/game";
 import Container from "../components/Container";
+import { CardHistory } from "../components/CardHistory";
 
-const HistoryPlayer = [
+const HistoricPLayer = [
   {
-    position: 1,
-    username: "Thomaasss",
+    categoryLibelle: "SPORT",
+    itemLibelle: "ballon",
     score: 100
   },
   {
-    position: 2,
-    username: "Antoine",
-    score: 97
+    categoryLibelle: "SPORT",
+    itemLibelle: "Chaussure",
+    score: 10
   },
   {
-    position: 3,
-    username: "Jeremy",
-    score: 95
+    categoryLibelle: "Quotidien",
+    itemLibelle: "Tee-shirt",
+    score: 0
   },
   {
-    position: 4,
-    username: "Juliette",
-    score: 73
-  },
-  {
-    position: 5,
-    username: "Jonathan",
-    score: 50
-  },
-  {
-    position: 5,
-    username: "Joel",
-    score: 50,
-    isCurrentUser: true
+    categoryLibelle: "Technologie",
+    itemLibelle: "ecran",
+    score: 20
   }
 ];
 
@@ -61,37 +52,40 @@ class Historic extends React.Component {
     super(props);
   }
   state = {
-    historyPlayer: undefined
+    historicPLayer: undefined
   };
 
   async componentDidMount() {
-    // Retrieve Usertoken and Send It
-
     const infoUserStr = await AsyncStorage.getItem("infoUser");
     let infoUser = JSON.parse(infoUserStr);
 
-    getHistory(infoUser.uuid)
+    getHistory(infoUser.uuid, infoUser.token)
       .then(res => {
-        console.log(res);
-
-        this.setState({ historyPlayer: null });
+        let result;
+        if (Object.entries(res).length === 0) {
+          // replace mock by null for delete test
+          result = HistoricPLayer;
+        } else {
+          result = res;
+        }
+        this.setState({ historicPLayer: result });
       })
       .catch(err => {
-        this.setState({ historyPlayer: null });
+        this.setState({ historicPLayer: null });
         console.log(err);
       });
   }
 
   _noData = () => {
-    return <Text h4>Il n'y a pas de donnée </Text>;
+    return <Text h4>Aucune partie joué </Text>;
   };
 
   render() {
-    let { historyPlayer } = this.state;
+    let { historicPLayer } = this.state;
 
-    if (historyPlayer === undefined) {
+    if (historicPLayer === undefined) {
       return <Loading />;
-    } else if (historyPlayer === null) {
+    } else if (historicPLayer === null) {
       return <Container>{this._noData()}</Container>;
     }
 
@@ -100,19 +94,13 @@ class Historic extends React.Component {
         <Header
           backgroundColor="#042867"
           centerComponent={{
-            text: `Classement Mondial`,
-            style: { color: "#fff" }
+            text: `Historique Partie`,
+            style: { color: "#fff", fontWeight: "bold" }
           }}
         />
         <ScrollView style={{ height: "100%" }}>
-          {historyPlayer.map((element, index) => {
-            return (
-              <CardRanking
-                key={index}
-                props={element}
-                itMe={element.isCurrentUser ? true : false}
-              />
-            );
+          {historicPLayer.map((element, index) => {
+            return <CardHistory key={index} props={element} />;
           })}
         </ScrollView>
       </View>

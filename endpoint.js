@@ -5,8 +5,8 @@ export const BASE_URL = "https://quickpicback.herokuapp.com";
 
 export const REGISTER = "/api/auth/register";
 export const LOGIN = "/api/auth/login";
-export const RANKING = "/api/scoreboard/";
-export const HISTORY = "/api/history";
+export const RANKING = "/api/users/scoreboard/";
+export const HISTORY = "/api/users/historiy";
 
 // Api For custom Avart ;)
 export const API_AVATAR = "https://api.adorable.io/avatars";

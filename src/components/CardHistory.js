@@ -2,8 +2,8 @@ import React from "react";
 
 import { View, StyleSheet, Text } from "react-native";
 import { ListItem } from "react-native-elements";
-import { API_AVATAR } from "../../endpoint";
-export const CardRanking = ({ props, itMe }) => {
+
+export const CardHistory = ({ props }) => {
   return (
     <View
       style={{
@@ -26,27 +26,23 @@ export const CardRanking = ({ props, itMe }) => {
           friction={90}
           tension={100}
           activeScale={0.95}
-          leftAvatar={{
-            rounded: true,
-            source: {
-              uri: `${API_AVATAR}/100/${props.uuid}`
-            }
-          }}
-          title={props.nickname}
-          titleStyle={{ color: "black", fontWeight: "bold" }}
-          subtitleStyle={{ color: "black" }}
-          subtitle={
+          // title={"deddedede"}
+          title={
             <View style={styles.subtitleView}>
-              <Text>Score : {props.points || 0}</Text>
-              <Text style={styles.position}>{props.position}</Text>
+              <Text style={styles.text}>{props.categoryLibelle}</Text>
+              <Text style={styles.title}>{props.itemLibelle}</Text>
+              <Text style={[styles.text, { fontWeight: "bold" }]}>
+                + {props.score} points
+              </Text>
             </View>
           }
+          titleStyle={{ color: "black", fontWeight: "bold" }}
           containerStyle={[
             {
               borderRadius: 10,
 
               borderWidth: 1,
-              borderColor: itMe ? "green" : "#d6d7da"
+              borderColor: "#d6d7da"
             }
           ]}
         />
@@ -74,13 +70,17 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between"
   },
-  position: {
+  title: {
     fontWeight: "bold",
-    fontSize: 20
+    fontSize: 15
+  },
+  text: {
+    fontWeight: "bold",
+    fontSize: 10
   }
 });
 
-export default CardRanking;
+export default CardHistory;
 
 // colors Good
 // #5359af
