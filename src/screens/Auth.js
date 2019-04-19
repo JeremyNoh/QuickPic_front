@@ -25,7 +25,6 @@ import Title from "../components/Title";
 import { Button, ButtonGroup } from "react-native-elements";
 
 import { connecteUser, registerUser } from "../../api/auth";
-import { saveInfo } from "../../utils/FuncNative";
 
 class Auth extends React.Component {
   state = {
@@ -77,21 +76,20 @@ class Auth extends React.Component {
     let { user } = this.state;
     connecteUser(user)
       .then(async res => {
-        let infoUser = {
-          nickname: res.data.user,
-          email: res.data.user,
-          uuid: res.data.user,
+        let data = {
+          email: res.data.user.email,
+          nickname: res.data.user.nickname,
+          uuid: res.data.user.uuid,
           token: res.token
         };
-        await AsyncStorage.setItem("infoUser", JSON.stringify(infoUser));
+        await AsyncStorage.setItem("infoUser", JSON.stringify(data));
+
         this._submit();
       })
       .catch(err => {
         alert("Error please retry");
         console.log(err);
       });
-
-    // this._submit();
   };
 
   connectionView = () => {

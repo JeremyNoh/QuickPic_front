@@ -1,5 +1,12 @@
 import React from "react";
-import { View, Text, StyleSheet, Alert, ScrollView } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Alert,
+  ScrollView,
+  AsyncStorage
+} from "react-native";
 
 // Internal Component
 import {
@@ -12,10 +19,10 @@ import {
 import { Header } from "react-native-elements";
 import CardRanking from "../components/CardRanking";
 import { Loading } from "../components/Loading";
-import { getRanking } from "../../api/game";
+import { getHistory } from "../../api/game";
 import Container from "../components/Container";
 
-const RankPLayer = [
+const HistoryPlayer = [
   {
     position: 1,
     username: "Thomaasss",
@@ -54,21 +61,23 @@ class Historic extends React.Component {
     super(props);
   }
   state = {
-    rankPLayer: undefined
+    historyPlayer: undefined
   };
 
-  componentDidMount() {
+  async componentDidMount() {
     // Retrieve Usertoken and Send It
 
-    getRanking("user")
+    const infoUserStr = await AsyncStorage.getItem("infoUser");
+    let infoUser = JSON.parse(infoUserStr);
+
+    getHistory(infoUser.uuid)
       .then(res => {
-        let result = res.filter(obj => !obj.isCurrentUser);
-        let [valueTopPushFirst] = res.filter(obj => obj.isCurrentUser);
-        result.unshift(valueTopPushFirst);
-        this.setState({ rankPLayer: res });
+        console.log(res);
+
+        this.setState({ historyPlayer: null });
       })
       .catch(err => {
-        this.setState({ rankPLayer: null });
+        this.setState({ historyPlayer: null });
         console.log(err);
       });
   }
@@ -78,11 +87,11 @@ class Historic extends React.Component {
   };
 
   render() {
-    let { rankPLayer } = this.state;
+    let { historyPlayer } = this.state;
 
-    if (rankPLayer === undefined) {
+    if (historyPlayer === undefined) {
       return <Loading />;
-    } else if (rankPLayer === null) {
+    } else if (historyPlayer === null) {
       return <Container>{this._noData()}</Container>;
     }
 
@@ -96,7 +105,7 @@ class Historic extends React.Component {
           }}
         />
         <ScrollView style={{ height: "100%" }}>
-          {rankPLayer.map((element, index) => {
+          {historyPlayer.map((element, index) => {
             return (
               <CardRanking
                 key={index}

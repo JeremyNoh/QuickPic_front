@@ -11,7 +11,8 @@ export const registerUser = user => {
       body: JSON.stringify({
         email: user.email,
         nickname: user.username,
-        password: user.password
+        password: user.password,
+        password_confirmation: user.confirmPassword
       })
     })
       .then(response => {
@@ -43,9 +44,9 @@ export const connecteUser = user => {
       })
     })
       .then(response => {
-        if (!response.ok) {
-          reject("erreur");
-        }
+        // if (!response.ok) {
+        //   reject("erreur");
+        // }
         return response.json();
       })
       .then(data => {

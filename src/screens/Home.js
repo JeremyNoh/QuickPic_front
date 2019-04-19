@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useState } from "react";
-import { View, Text, StyleSheet, Alert } from "react-native";
+import { View, Text, StyleSheet, Alert, AsyncStorage } from "react-native";
 
 // Internal Component
 import {
@@ -93,7 +93,11 @@ class Home extends React.Component {
     selectedIndex: 0
   };
 
-  componentDidMount() {}
+  // async componentDidMount() {
+  //   const infoUserStr = await AsyncStorage.getItem("infoUser");
+  //   let infoUser = JSON.parse(infoUserStr);
+  //   console.log(infoUser);
+  // }
 
   _updateIndex = selectedIndex => {
     this.setState({ selectedIndex });

@@ -1,5 +1,11 @@
 import React from "react";
-import { View, Text, StyleSheet, Alert, ScrollView } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Alert,
+  ScrollView,
+  AsyncStorage
+} from "react-native";
 
 // Internal Component
 import {
@@ -7,6 +13,8 @@ import {
   TEXT_HEADER,
   BUTTON_COLOR_TWO
 } from "../../utils/colors";
+
+import { Text } from "react-native-elements";
 
 // Libs Extenal
 import { Header } from "react-native-elements";
@@ -57,15 +65,21 @@ class Ranking extends React.Component {
     rankPLayer: undefined
   };
 
-  componentDidMount() {
-    // Retrieve Usertoken and Send It
+  async componentDidMount() {
+    const infoUserStr = await AsyncStorage.getItem("infoUser");
+    let infoUser = JSON.parse(infoUserStr);
 
-    getRanking("user")
+    getRanking(infoUser.uuid, infoUser.token)
       .then(res => {
-        let result = res.filter(obj => !obj.isCurrentUser);
-        let [valueTopPushFirst] = res.filter(obj => obj.isCurrentUser);
-        result.unshift(valueTopPushFirst);
-        this.setState({ rankPLayer: res });
+        let result;
+        if (Object.entries(res).length === 0) {
+          result = null;
+        } else {
+          let result = res.filter(obj => !obj.isCurrentUser);
+          let [valueTopPushFirst] = res.filter(obj => obj.isCurrentUser);
+          result.unshift(valueTopPushFirst);
+        }
+        this.setState({ rankPLayer: result });
       })
       .catch(err => {
         this.setState({ rankPLayer: null });
@@ -74,7 +88,7 @@ class Ranking extends React.Component {
   }
 
   _noData = () => {
-    return <Text h4>Il n'y a pas de donnée </Text>;
+    return <Text h4>le Classement est null </Text>;
   };
 
   render() {

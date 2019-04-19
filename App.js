@@ -85,21 +85,21 @@ const SignedIn = createBottomTabNavigator(
   }
 );
 
-canConnnect = async () => {
-  // return true;
-  const infoUser = await AsyncStorage.getItem("infoUser");
-  console.log(infoUser);
+// canConnnect = async () => {
+//   // return true;
+//   const infoUser = await AsyncStorage.getItem("infoUser");
+//   console.log(infoUser);
 
-  if (infoUser) {
-    console.log("YEAHHHHHH");
+//   if (infoUser) {
+//     console.log("YEAHHHHHH");
 
-    return true;
-  } else {
-    console.log("SHITTTT");
+//     return true;
+//   } else {
+//     console.log("SHITTTT");
 
-    return false;
-  }
-};
+//     return false;
+//   }
+// };
 
 export default createAppContainer(
   createSwitchNavigator(
