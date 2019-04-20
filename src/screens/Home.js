@@ -208,7 +208,6 @@ class Home extends React.Component {
             );
           })}
         </ScrollView>
-        {fluxGame.length < 1 && <Text h4> dedededed</Text>}
       </View>
     );
   }
