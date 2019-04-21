@@ -113,28 +113,25 @@ class Home extends React.Component {
   async componentDidMount() {
     const infoUserStr = await AsyncStorage.getItem("infoUser");
     let infoUser = JSON.parse(infoUserStr);
-
     getAllGames(infoUser.token)
       .then(res => {
-        console.log("AZERTYUIOP");
-
-        console.log(res);
-
-        let result;
-        let progressGame;
-        let upcomingGame;
+        let result = null;
+        let progressGame = null;
+        let upcomingGame = null;
         if (res.hasOwnProperty("msg")) {
           result = null;
         } else {
           result = res;
           upcomingGame = res.filter(obj => obj.status === "upcoming");
-          progressGame = res.filter(obj => obj.status === "in progess");
+          console.log(res);
+
+          progressGame = res.filter(obj => obj.status === "in progress");
         }
         this.setState({ allGames: result, upcomingGame, progressGame });
       })
       .catch(err => {
-        this.setState({ allGames: null });
         console.log(err);
+        this.setState({ allGames: null });
       });
   }
 
@@ -143,8 +140,6 @@ class Home extends React.Component {
   };
 
   SelectGame = infoGame => {
-    console.log(infoGame);
-
     this.props.navigation.navigate("Game", {
       game: infoGame
     });
@@ -173,7 +168,9 @@ class Home extends React.Component {
           rightComponent={{
             icon: "power",
             color: "#fff",
-            onPress: () => this.props.navigation.navigate("SignedOut")
+            onPress: () => {
+              this.props.navigation.navigate("SignedOut"), AsyncStorage.clear();
+            }
           }}
         />
         <View style={{ alignItems: "center" }}>

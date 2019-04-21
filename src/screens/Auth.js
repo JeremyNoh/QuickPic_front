@@ -100,13 +100,18 @@ class Auth extends React.Component {
           style={styles.TextInput}
           value={user.username}
           placeholder="Username"
+          autoCapitalize="none"
+          autoCorrect={false}
           onChangeText={val => this.updateStateHandler("username", val)}
         />
         <TextInput
           style={styles.TextInput}
           value={user.password}
           placeholder="Password"
-          type="password"
+          autoCapitalize="none"
+          textContentType="password"
+          autoCorrect={false}
+          secureTextEntry={true}
           onChangeText={val => this.updateStateHandler("password", val)}
         />
 
@@ -131,25 +136,31 @@ class Auth extends React.Component {
           style={styles.TextInput}
           value={user.email}
           placeholder="Email"
+          autoCapitalize="none"
+          textContentType="emailAddress"
           onChangeText={val => this.updateStateHandler("email", val)}
         />
         <TextInput
           style={styles.TextInput}
           value={user.username}
           placeholder="Username"
+          autoCapitalize="none"
+          autoCorrect={false}
           onChangeText={val => this.updateStateHandler("username", val)}
         />
         <TextInput
           style={styles.TextInput}
           value={user.password}
           placeholder="Password"
-          type="password"
+          secureTextEntry={true}
           onChangeText={val => this.updateStateHandler("password", val)}
         />
         <TextInput
           style={styles.TextInput}
           value={user.confirmPassword}
           placeholder="Confirmer le password"
+          secureTextEntry={false}
+          autoCorrect={false}
           onChangeText={val => this.updateStateHandler("confirmPassword", val)}
         />
 

@@ -1,5 +1,6 @@
 import React from "react";
 import {
+  AsyncStorage,
   View,
   StyleSheet,
   TouchableHighlight,
@@ -26,6 +27,7 @@ import {
 import Container from "../components/Container";
 import Title from "../components/Title";
 import { Loading } from "../components/Loading";
+import { PostScoreInOneGame } from "../../api/game";
 
 class Game extends React.Component {
   constructor(props) {
@@ -45,11 +47,14 @@ class Game extends React.Component {
     const { status } = await Permissions.askAsync(Permissions.CAMERA);
     this.setState({ hasCameraPermission: status === "granted" });
 
+    const infoUserStr = await AsyncStorage.getItem("infoUser");
+    let infoUser = JSON.parse(infoUserStr);
+
     const game = this.props.navigation.getParam("game", undefined);
     if (game === undefined) {
-      this.setState({ game: null });
+      this.setState({ game: null, infoUser });
     } else {
-      this.setState({ game });
+      this.setState({ game, infoUser });
     }
   }
   cameraChange = () => {
@@ -70,6 +75,22 @@ class Game extends React.Component {
         this.setState({ imageuri: photo.uri });
       }
     }
+  };
+
+  _sendScoreToApi = () => {
+    let { infoUser, game } = this.state;
+    PostScoreInOneGame(infoUser.token, game.idGame, {
+      pourcentage: Math.floor(Math.random() * Math.floor(101)),
+      uuid: infoUser.uuid
+    })
+      .then(res => {
+        console.log(res);
+        this.setModalVisible(false);
+      })
+      .catch(err => {
+        Alert.alert("Error please retry");
+        console.log(err);
+      });
   };
 
   upload = () => {
@@ -202,13 +223,27 @@ class Game extends React.Component {
             </View>
           )}
 
-          <Button
-            onPress={() => {
-              this.setModalVisible(false);
-            }}
-            buttonStyle={styles.Button}
-            title="Retour"
-          />
+          {this.state.url === "" && (
+            <Button
+              onPress={() => {
+                this.setModalVisible(false);
+              }}
+              buttonStyle={styles.Button}
+              title="Retour"
+            />
+          )}
+          {this.state.url != "" && (
+            <Button
+              onPress={() => {
+                this._sendScoreToApi();
+              }}
+              title="Valider mon choix"
+              containerStyle={{
+                marginTop: 10
+              }}
+              buttonStyle={styles.Button}
+            />
+          )}
         </View>
       );
     }
@@ -282,6 +317,7 @@ class Game extends React.Component {
             }}
             buttonStyle={{ backgroundColor: "#042867" }}
           />
+
           {this.modalView()}
         </View>
       </View>
