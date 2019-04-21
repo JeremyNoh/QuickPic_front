@@ -7,12 +7,12 @@ import {
   TEXT_HEADER,
   BUTTON_COLOR_TWO
 } from "../../utils/colors";
+import { getAllGames } from "../../api/game";
+import CardForPlay from "../components/CardForPlay";
 
 // Libs Extenal
 import { Button, ButtonGroup, Header } from "react-native-elements";
-import CardForPlay from "../components/CardForPlay";
 import { ScrollView } from "react-native-gesture-handler";
-import { getAllGames } from "../../api/game";
 
 // status
 // categoryLibelle
@@ -123,8 +123,6 @@ class Home extends React.Component {
         } else {
           result = res;
           upcomingGame = res.filter(obj => obj.status === "upcoming");
-          console.log(res);
-
           progressGame = res.filter(obj => obj.status === "in progress");
         }
         this.setState({ allGames: result, upcomingGame, progressGame });

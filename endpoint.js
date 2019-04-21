@@ -8,6 +8,7 @@ export const LOGIN = "/api/auth/login";
 export const RANKING = "/api/users/scoreboard/";
 export const HISTORY = "/api/users/history/";
 export const GAMES = "/api/games/";
+export const PROFIL = "/api/users/profil/";
 
 // Api For custom Avart ;)
 export const API_AVATAR = "https://api.adorable.io/avatars";

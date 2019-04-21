@@ -17,6 +17,7 @@ import {
 import { Camera, Permissions } from "expo";
 import CountDown from "react-native-countdown-component";
 import { Button, Text, Header } from "react-native-elements";
+import { RNS3 } from "react-native-aws3";
 
 // Internal Component
 import {
@@ -28,6 +29,7 @@ import Container from "../components/Container";
 import Title from "../components/Title";
 import { Loading } from "../components/Loading";
 import { PostScoreInOneGame } from "../../api/game";
+import { OPTIONS_AWS } from "../../utils/const";
 
 class Game extends React.Component {
   constructor(props) {
@@ -44,6 +46,8 @@ class Game extends React.Component {
   };
 
   async componentDidMount() {
+    console.log("test");
+
     const { status } = await Permissions.askAsync(Permissions.CAMERA);
     this.setState({ hasCameraPermission: status === "granted" });
 
@@ -88,6 +92,7 @@ class Game extends React.Component {
         this.setModalVisible(false);
       })
       .catch(err => {
+        this.setModalVisible(false);
         Alert.alert("Error please retry");
         console.log(err);
       });
@@ -100,14 +105,26 @@ class Game extends React.Component {
       type: "image/jpeg"
     };
 
-    console.log(file);
+    return RNS3.put(file, OPTIONS_AWS)
+      .then(response => {
+        if (response.status !== 201)
+          throw new Error("Failed to upload image to S3");
+        else {
+          console.log(
+            "Successfully uploaded image to s3. s3 bucket url: ",
+            response.body.postResponse.location
+          );
+          this.setState({
+            url: response.body.postResponse.location,
+            switchValue: false
+          });
+        }
+      })
+      .catch(error => {
+        console.log("error");
 
-    // fetch data
-
-    this.setState({
-      url: "dedede",
-      switchValue: false
-    });
+        console.log(error);
+      });
   };
 
   _noData = () => <Text h4>Il n'y a pas de donnée </Text>;
@@ -239,7 +256,8 @@ class Game extends React.Component {
               }}
               title="Valider mon choix"
               containerStyle={{
-                marginTop: 10
+                marginTop: 10,
+                justifyContent: "center"
               }}
               buttonStyle={styles.Button}
             />

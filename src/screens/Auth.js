@@ -80,7 +80,9 @@ class Auth extends React.Component {
           email: res.data.user.email,
           nickname: res.data.user.nickname,
           uuid: res.data.user.uuid,
-          token: res.token
+          token: res.token,
+          firstname: res.data.user.firstname,
+          lastname: res.data.user.lastname
         };
         await AsyncStorage.setItem("infoUser", JSON.stringify(data));
 
