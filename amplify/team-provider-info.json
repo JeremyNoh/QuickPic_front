@@ -1,0 +1,14 @@
+{
+    "quickpic": {
+        "awscloudformation": {
+            "AuthRoleName": "quickpic-20190421160607-authRole",
+            "UnauthRoleArn": "arn:aws:iam::840274525861:role/quickpic-20190421160607-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::840274525861:role/quickpic-20190421160607-authRole",
+            "Region": "us-east-1",
+            "DeploymentBucketName": "quickpic-20190421160607-deployment",
+            "UnauthRoleName": "quickpic-20190421160607-unauthRole",
+            "StackName": "quickpic-20190421160607",
+            "StackId": "arn:aws:cloudformation:us-east-1:840274525861:stack/quickpic-20190421160607/9cd0a460-643e-11e9-abec-0eee516a945a"
+        }
+    }
+}
