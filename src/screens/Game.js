@@ -72,7 +72,7 @@ class Game extends React.Component {
     });
   };
 
-  snap = async () => {
+  _snap = async () => {
     if (this.camera) {
       let photo = await this.camera.takePictureAsync();
       if (photo) {
@@ -215,7 +215,7 @@ class Game extends React.Component {
                 <View style={styles.captureButtonView}>
                   <TouchableOpacity
                     style={styles.cameraButtons}
-                    onPress={this.snap}
+                    onPress={this._snap}
                   >
                     <Text
                       style={{ fontSize: 18, marginBottom: 10, color: "white" }}
@@ -229,6 +229,7 @@ class Game extends React.Component {
                 <TouchableOpacity
                   style={styles.cameraButtons}
                   onPress={this.upload}
+                  disabled={!!!this.state.imageuri}
                 >
                   <Text
                     style={{ fontSize: 18, marginBottom: 10, color: "white" }}
@@ -348,7 +349,7 @@ class Game extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#1dd1a1",
+    backgroundColor: "#7886D7",
     alignItems: "center",
     justifyContent: "center"
   },

@@ -15,6 +15,18 @@ export const CardForPlay = ({ props, onPress, inFuture }) => {
         .utc(moment(props.startGame).diff(moment(moment())))
         .format("HH:mm");
     titleCard = "à venir";
+
+    // test
+    // if (props.categoryLibelle === "Sport") {
+    //   // console.log(props.startGame);
+    //   // console.log(moment(props.startGame).format("MMMM Do YYYY, h:mm:ss a"));
+    //   console.log(moment.unix(props.startGame).format("YYYY-MM-DD HH:mm"));
+    //   console.log(moment().unix());
+    //   console.log(new Date());
+
+    //   // console.log(moment(1555879230).format("DD/MM/YYYY"));
+    // }
+    // finTest
   }
 
   return (
