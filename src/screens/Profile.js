@@ -76,6 +76,14 @@ export default class Profile extends React.Component {
     });
   }
 
+  // Regex for Check Email
+  _validateEmail(mail) {
+    if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(mail)) {
+      return true;
+    }
+    return false;
+  }
+
   // PUT - TO upadte info user on API | DATABASE && ASynctorage
   _updateUser = () => {
     let { user, infoUser, editable } = this.state;
@@ -248,6 +256,11 @@ export default class Profile extends React.Component {
               height: 50
             }}
             title="Enregistrer"
+            disabled={
+              !(user.nickname.length >= 6 && this._validateEmail(user.email))
+            }
+            disabledStyle={styles.desabled}
+            disabledTitleStyle={{ color: "white" }}
             onPress={() => this._updateUser()}
           />
         )}
@@ -278,5 +291,8 @@ const styles = StyleSheet.create({
   },
   desabledInput: {
     opacity: 0.3
+  },
+  desabled: {
+    backgroundColor: "#787879"
   }
 });

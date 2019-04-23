@@ -91,9 +91,18 @@ class Auth extends React.Component {
       });
   };
 
+  // Regex for Check Email
+  _validateEmail(mail) {
+    if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(mail)) {
+      return true;
+    }
+    return false;
+  }
+
   // VIEW - For Connect
   connectionView = () => {
     let { user } = this.state;
+
     return (
       <View style={{ marginTop: 20 }}>
         <TextInput
@@ -118,6 +127,9 @@ class Auth extends React.Component {
         <Button
           onPress={() => this._connect()}
           buttonStyle={styles.Button}
+          disabled={!(user.username.length >= 6 && user.password.length >= 6)}
+          disabledStyle={styles.desabled}
+          disabledTitleStyle={{ color: "white" }}
           title="Se connecter"
         />
 
@@ -169,6 +181,17 @@ class Auth extends React.Component {
           onPress={() => this._register()}
           buttonStyle={styles.Button}
           title="S'enregistrer"
+          disabled={
+            !(
+              user.username.length >= 6 &&
+              user.password.length >= 6 &&
+              user.password.length >= 6 &&
+              user.confirmPassword === user.password &&
+              this._validateEmail(user.email)
+            )
+          }
+          disabledStyle={styles.desabled}
+          disabledTitleStyle={{ color: "white" }}
         />
 
         <Text style={{ textDecorationLine: "underline" }}>
@@ -220,6 +243,9 @@ const styles = StyleSheet.create({
     backgroundColor: BUTTON_COLOR_ONE,
     marginBottom: 10,
     marginTop: 10
+  },
+  desabled: {
+    backgroundColor: "#787879"
   }
 });
 
