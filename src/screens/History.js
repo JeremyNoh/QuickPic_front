@@ -73,6 +73,26 @@ class Historic extends React.Component {
         this.setState({ historicPLayer: null });
         console.log(err);
       });
+
+    // MAJ WHEN PLAYER CHANGE TAB
+    this._subscribe = this.props.navigation.addListener(
+      "didFocus",
+      async () => {
+        getHistory(infoUser.uuid, infoUser.token)
+          .then(res => {
+            let result;
+            if (res.hasOwnProperty("msg")) {
+              result = null;
+            } else {
+              result = res;
+            }
+            this.setState({ historicPLayer: result });
+          })
+          .catch(err => {
+            console.log(err);
+          });
+      }
+    );
   }
 
   // VIEW - No data

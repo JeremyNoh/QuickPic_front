@@ -86,6 +86,28 @@ class Ranking extends React.Component {
         this.setState({ rankPLayer: null });
         console.log(err);
       });
+
+    // For MAJ RANKING WHEN CHANGE TAB
+    this._subscribe = this.props.navigation.addListener(
+      "didFocus",
+      async () => {
+        getRanking(infoUser.uuid, infoUser.token)
+          .then(res => {
+            let result;
+            if (Object.entries(res).length === 0) {
+              result = null;
+            } else {
+              result = res.filter(obj => !obj.isCurrentUser);
+              let [valueTopPushFirst] = res.filter(obj => obj.isCurrentUser);
+              result.unshift(valueTopPushFirst);
+            }
+            this.setState({ rankPLayer: result });
+          })
+          .catch(err => {
+            console.log(err);
+          });
+      }
+    );
   }
 
   // VIEW - no data
