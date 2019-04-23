@@ -11,7 +11,7 @@ import { getAllGames } from "../../api/game";
 import CardForPlay from "../components/CardForPlay";
 
 // Libs Extenal
-import { Button, ButtonGroup, Header } from "react-native-elements";
+import { ButtonGroup, Header } from "react-native-elements";
 import { ScrollView } from "react-native-gesture-handler";
 
 // status
@@ -193,11 +193,7 @@ class Home extends React.Component {
               <CardForPlay
                 key={index}
                 props={element}
-                onPress={() =>
-                  selectedIndex === 0
-                    ? this.SelectGame(element)
-                    : this.SelectNotYetGame()
-                }
+                onPress={() => this.SelectGame(element)}
                 inFuture={selectedIndex === 0 ? false : true}
               />
             );
@@ -211,3 +207,15 @@ class Home extends React.Component {
 const styles = StyleSheet.create({});
 
 export default Home;
+
+// for not press the button if Not in Progress Game
+/* <CardForPlay
+                key={index}
+                props={element}
+                onPress={() =>
+                  selectedIndex === 0
+                    ? this.SelectGame(element)
+                    : this.SelectNotYetGame()
+                }
+                inFuture={selectedIndex === 0 ? false : true}
+              /> */

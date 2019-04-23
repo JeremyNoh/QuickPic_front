@@ -1,4 +1,11 @@
-import { BASE_URL, RANKING, HISTORY, GAMES } from "../endpoint";
+import {
+  BASE_URL,
+  RANKING,
+  HISTORY,
+  GAMES,
+  API_RECONIZATION
+} from "../endpoint";
+import { KEY_IMMAGA } from "../utils/const";
 
 export const getRanking = (userId, userToken) => {
   return new Promise((resolve, reject) => {
@@ -98,6 +105,32 @@ export const PostScoreInOneGame = (userToken, idGame, info) => {
           reject(data.error);
         } else {
           resolve(data);
+        }
+      })
+      .catch(err => {
+        reject(err);
+      });
+  });
+};
+
+export const ReconnaissanceImage = photoUrl => {
+  return new Promise((resolve, reject) => {
+    fetch(API_RECONIZATION + photoUrl, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: KEY_IMMAGA
+      }
+    })
+      .then(response => {
+        return response.json();
+      })
+      .then(data => {
+        if (data.error) {
+          reject(data.error);
+        } else {
+          resolve(data.result.tags);
         }
       })
       .catch(err => {

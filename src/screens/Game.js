@@ -16,7 +16,7 @@ import {
 // Libs Extenal
 import { Camera, Permissions } from "expo";
 import CountDown from "react-native-countdown-component";
-import { Button, Text, Header } from "react-native-elements";
+import { Button, Text, Header, Overlay } from "react-native-elements";
 import { RNS3 } from "react-native-aws3";
 
 // Internal Component
@@ -28,7 +28,7 @@ import {
 import Container from "../components/Container";
 import Title from "../components/Title";
 import { Loading } from "../components/Loading";
-import { PostScoreInOneGame } from "../../api/game";
+import { PostScoreInOneGame, ReconnaissanceImage } from "../../api/game";
 import { OPTIONS_AWS } from "../../utils/const";
 
 class Game extends React.Component {
@@ -42,7 +42,9 @@ class Game extends React.Component {
     type: Camera.Constants.Type.back,
     switchValue: true,
     imageuri: "",
-    url: ""
+    url: "",
+    loadingResult: false,
+    matchingImage: undefined
   };
 
   async componentDidMount() {
@@ -83,19 +85,22 @@ class Game extends React.Component {
 
   _sendScoreToApi = () => {
     let { infoUser, game } = this.state;
-    PostScoreInOneGame(infoUser.token, game.idGame, {
-      pourcentage: Math.floor(Math.random() * Math.floor(101)),
-      uuid: infoUser.uuid
-    })
-      .then(res => {
-        console.log(res);
-        this.setModalVisible(false);
-      })
-      .catch(err => {
-        this.setModalVisible(false);
-        Alert.alert("Error please retry");
-        console.log(err);
-      });
+
+    this.setModalVisible(false);
+    Alert.alert("tu as gagné XXX point ");
+    // PostScoreInOneGame(infoUser.token, game.idGame, {
+    //   pourcentage: Math.floor(Math.random() * Math.floor(101)),
+    //   uuid: infoUser.uuid
+    // })
+    //   .then(res => {
+    //     console.log(res);
+    //     this.setModalVisible(false);
+    //   })
+    //   .catch(err => {
+    //     this.setModalVisible(false);
+    //     Alert.alert("Error please retry");
+    //     console.log(err);
+    //   });
   };
 
   upload = () => {
@@ -104,6 +109,8 @@ class Game extends React.Component {
       name: `${new Date().getTime()}.jpg`,
       type: "image/jpeg"
     };
+
+    this.setState({ loadingResult: true });
 
     return RNS3.put(file, OPTIONS_AWS)
       .then(response => {
@@ -114,16 +121,37 @@ class Game extends React.Component {
             "Successfully uploaded image to s3. s3 bucket url: ",
             response.body.postResponse.location
           );
-          this.setState({
-            url: response.body.postResponse.location,
-            switchValue: false
-          });
+          this.setState(
+            {
+              url: response.body.postResponse.location,
+              switchValue: false
+            },
+            () => {
+              this._getInfoScore();
+            }
+          );
         }
       })
       .catch(error => {
         console.log("error");
 
         console.log(error);
+      });
+  };
+
+  _getInfoScore = () => {
+    let { url } = this.state;
+
+    ReconnaissanceImage(url)
+      .then(res => {
+        console.log("res");
+        console.log(res);
+        this.setState({ loadingResult: false, matchingImage: res });
+      })
+      .catch(err => {
+        console.log("error");
+        console.log(err);
+        this.setState({ loadingResult: false, matchingImage: null });
       });
   };
 
@@ -204,9 +232,27 @@ class Game extends React.Component {
             </View>
           ) : (
             <View style={styles.cameraview}>
-              {this.state.url != "" && (
-                <Text>Uploaded url : {this.state.url}</Text>
-              )}
+              {this.state.url != "" &&
+                this.state.matchingImage && [
+                  <Text h4 key={1}>
+                    {" "}
+                    Ton Image Ressemble à :{" "}
+                  </Text>,
+                  <Text h5 key={2}>
+                    - {Math.round(this.state.matchingImage[0].confidence)}%
+                    un(e) {this.state.matchingImage[0].tag.fr}
+                  </Text>,
+                  <Text h5 key={3}>
+                    {" "}
+                    - {Math.round(this.state.matchingImage[1].confidence)}%
+                    un(e) {this.state.matchingImage[1].tag.fr}
+                  </Text>,
+                  <Text h5 key={4}>
+                    {" "}
+                    - {Math.round(this.state.matchingImage[2].confidence)}%
+                    un(e) {this.state.matchingImage[2].tag.fr}
+                  </Text>
+                ]}
             </View>
           )}
           {this.state.switchValue && (
@@ -268,6 +314,17 @@ class Game extends React.Component {
     }
   };
 
+  _waitResult = () => {
+    let { loadingResult } = this.state;
+    return (
+      <Overlay isVisible={loadingResult}>
+        <Container>
+          <Text> Wait We calcul your Image...</Text>
+        </Container>
+      </Overlay>
+    );
+  };
+
   modalView = () => {
     return (
       <Modal
@@ -275,9 +332,10 @@ class Game extends React.Component {
         transparent={false}
         visible={this.state.modalVisible}
         onRequestClose={() => {
-          Alert.alert("Modal has been closed.");
+          this.setModalVisible(false);
         }}
       >
+        {this._waitResult()}
         {this.intoModal()}
       </Modal>
     );
