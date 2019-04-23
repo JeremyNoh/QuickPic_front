@@ -1,13 +1,9 @@
-import React, { FunctionComponent, useState } from "react";
-import { View, Text, StyleSheet, AsyncStorage } from "react-native";
+import React from "react";
+import { StyleSheet, AsyncStorage } from "react-native";
 
 // Internal Component
 import { BACKGROUND_HEADER, TEXT_HEADER } from "../../utils/colors";
 import Container from "../components/Container";
-import Title from "../components/Title";
-
-// Libs Extenal
-import { Card, Button } from "react-native-elements";
 import { Loading } from "../components/Loading";
 
 class SplashScreen extends React.Component {

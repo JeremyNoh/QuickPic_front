@@ -7,7 +7,11 @@ import {
   AsyncStorage,
   Alert
 } from "react-native";
+
+// Libs Extenal
 import { Avatar, Button, Input } from "react-native-elements";
+
+// Internal Component
 import { getInfoUser, PutInfoUser } from "../../api/user";
 import { API_AVATAR } from "../../endpoint";
 import { Loading } from "../components/Loading";
@@ -28,6 +32,7 @@ export default class Profile extends React.Component {
     editable: false
   };
 
+  // GET - INFO OF USER
   async componentDidMount() {
     let { user } = this.state;
     const infoUserStr = await AsyncStorage.getItem("infoUser");
@@ -57,10 +62,12 @@ export default class Profile extends React.Component {
     });
   }
 
+  // OPEN | CLOSE Modal
   setModalVisible(visible) {
     this.setState({ modalVisible: visible });
   }
 
+  // UPDATE info of user
   updateStateHandler(key, value) {
     let { user } = this.state;
     user[key] = value;
@@ -69,6 +76,7 @@ export default class Profile extends React.Component {
     });
   }
 
+  // PUT - TO upadte info user on API | DATABASE && ASynctorage
   _updateUser = () => {
     let { user, infoUser, editable } = this.state;
     PutInfoUser(infoUser.token, infoUser.uuid, user)
@@ -83,6 +91,7 @@ export default class Profile extends React.Component {
     this.setState({ editable: false });
   };
 
+  // VIEW - modal
   modalView() {
     const { modalVisible, user } = this.state;
     if (modalVisible) {

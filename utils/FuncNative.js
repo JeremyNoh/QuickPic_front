@@ -1,3 +1,4 @@
+// SAVE INFO USER ON STORAGE
 export const saveInfo = async infoUser => {
   try {
     const value = await AsyncStorage.setItem(

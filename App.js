@@ -20,6 +20,7 @@ const headerStyle = {
   marginTop: Platform.OS === "android" ? StatusBar.currentHeight : 0
 };
 
+// Navigator for Screen on SIgned Out
 const SignedOut = createStackNavigator({
   Auth: {
     screen: Auth,
@@ -30,12 +31,14 @@ const SignedOut = createStackNavigator({
   }
 });
 
+// JUST SCREEN FOR AUTO-SIGNIN
 const AuthLoading = createStackNavigator({
   SplashScreen: {
     screen: SplashScreen
   }
 });
 
+// Navigator for Screen on SignIn && BOTTOM BAR
 const SignedIn = createBottomTabNavigator(
   {
     Home: {

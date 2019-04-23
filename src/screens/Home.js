@@ -1,6 +1,10 @@
 import React, { FunctionComponent, useState } from "react";
 import { View, Text, StyleSheet, Alert, AsyncStorage } from "react-native";
 
+// Libs Extenal
+import { ButtonGroup, Header } from "react-native-elements";
+import { ScrollView } from "react-native-gesture-handler";
+
 // Internal Component
 import {
   BACKGROUND_HEADER,
@@ -10,12 +14,6 @@ import {
 import { getAllGames } from "../../api/game";
 import CardForPlay from "../components/CardForPlay";
 
-// Libs Extenal
-import { ButtonGroup, Header } from "react-native-elements";
-import { ScrollView } from "react-native-gesture-handler";
-
-// status
-// categoryLibelle
 const enCours = [
   {
     idGame: 1,
@@ -110,6 +108,7 @@ class Home extends React.Component {
     upcomingGame: []
   };
 
+  // GET - ALL GAME AND SORT TO INPROGRESS && UPCOMING
   async componentDidMount() {
     const infoUserStr = await AsyncStorage.getItem("infoUser");
     let infoUser = JSON.parse(infoUserStr);
@@ -133,16 +132,19 @@ class Home extends React.Component {
       });
   }
 
+  // CHANGE VIEW INPROGRESS OR UPCOMING
   _updateIndex = selectedIndex => {
     this.setState({ selectedIndex });
   };
 
+  // Navigate to GameScreen with Params of the parti
   SelectGame = infoGame => {
     this.props.navigation.navigate("Game", {
       game: infoGame
     });
   };
 
+  // MESSAGE FOR GAME UPCOMING
   SelectNotYetGame() {
     Alert.alert("Sois Patient", "Cette partie n'est pas encore Disponible", [
       { text: "OK" }

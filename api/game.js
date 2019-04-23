@@ -7,6 +7,7 @@ import {
 } from "../endpoint";
 import { KEY_IMMAGA } from "../utils/const";
 
+// GET CLASSEMENT  OF ALL USER
 export const getRanking = (userId, userToken) => {
   return new Promise((resolve, reject) => {
     fetch(BASE_URL + RANKING + userId, {
@@ -32,6 +33,7 @@ export const getRanking = (userId, userToken) => {
   });
 };
 
+// GET HISTORY OF ONE USER
 export const getHistory = (userId, userToken) => {
   return new Promise((resolve, reject) => {
     fetch(BASE_URL + HISTORY + userId, {
@@ -57,6 +59,7 @@ export const getHistory = (userId, userToken) => {
   });
 };
 
+// GET ALL GAME
 export const getAllGames = userToken => {
   return new Promise((resolve, reject) => {
     fetch(BASE_URL + GAMES, {
@@ -83,6 +86,7 @@ export const getAllGames = userToken => {
   });
 };
 
+// POST SCORE FOR UPGRADE POINT OF THE USER
 export const PostScoreInOneGame = (userToken, idGame, info) => {
   return new Promise((resolve, reject) => {
     fetch(BASE_URL + GAMES + idGame, {
@@ -113,6 +117,7 @@ export const PostScoreInOneGame = (userToken, idGame, info) => {
   });
 };
 
+// GET ALL DETAILS OF THE IMAGE SEND
 export const ReconnaissanceImage = photoUrl => {
   return new Promise((resolve, reject) => {
     fetch(API_RECONIZATION + photoUrl, {

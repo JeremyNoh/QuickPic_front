@@ -3,14 +3,11 @@ import {
   AsyncStorage,
   View,
   StyleSheet,
-  TouchableHighlight,
   Modal,
-  CameraRoll,
   ScrollView,
   Image,
   TouchableOpacity,
-  Alert,
-  Switch
+  Alert
 } from "react-native";
 
 // Libs Extenal
@@ -20,11 +17,7 @@ import { Button, Text, Header, Overlay } from "react-native-elements";
 import { RNS3 } from "react-native-aws3";
 
 // Internal Component
-import {
-  BACKGROUND_HEADER,
-  TEXT_HEADER,
-  BUTTON_COLOR_ONE
-} from "../../utils/colors";
+import { BUTTON_COLOR_ONE } from "../../utils/colors";
 import Container from "../components/Container";
 import Title from "../components/Title";
 import { Loading } from "../components/Loading";
@@ -47,6 +40,7 @@ class Game extends React.Component {
     matchingImage: undefined
   };
 
+  // Retrieve info of the game && ask Permission to Camera
   async componentDidMount() {
     console.log("test");
 
@@ -63,6 +57,7 @@ class Game extends React.Component {
       this.setState({ game, infoUser });
     }
   }
+
   cameraChange = () => {
     this.setState({
       imageuri: "",
@@ -74,6 +69,7 @@ class Game extends React.Component {
     });
   };
 
+  // Take A picture
   _snap = async () => {
     if (this.camera) {
       let photo = await this.camera.takePictureAsync();
@@ -83,6 +79,7 @@ class Game extends React.Component {
     }
   };
 
+  // add score on USER profile API
   _sendScoreToApi = () => {
     let { infoUser, game } = this.state;
 
@@ -103,6 +100,7 @@ class Game extends React.Component {
     //   });
   };
 
+  // Stock photo on AWS - S3
   upload = () => {
     const file = {
       uri: this.state.imageuri,
@@ -139,6 +137,7 @@ class Game extends React.Component {
       });
   };
 
+  // GET - all description of the Picture
   _getInfoScore = () => {
     let { url } = this.state;
 
@@ -155,23 +154,15 @@ class Game extends React.Component {
       });
   };
 
+  // VIEW -  NO DATA
   _noData = () => <Text h4>Il n'y a pas de donnée </Text>;
 
+  // OPEN | CLOSE modal
   setModalVisible(visible) {
     this.setState({ modalVisible: visible });
   }
 
-  _handleButtonPress = () => {
-    CameraRoll.getPhotos({
-      first: 20,
-      assetType: "Photos"
-    })
-      .then(r => {
-        this.setState({ photos: r.edges });
-      })
-      .catch(err => {});
-  };
-
+  // VIEW - into the modal
   intoModal = () => {
     const { hasCameraPermission } = this.state;
     if (hasCameraPermission === null) {
@@ -314,6 +305,7 @@ class Game extends React.Component {
     }
   };
 
+  // VIEW - OVERLAY for loadingScreen and not touch
   _waitResult = () => {
     let { loadingResult } = this.state;
     return (
@@ -325,6 +317,7 @@ class Game extends React.Component {
     );
   };
 
+  // VIEW - Modal
   modalView = () => {
     return (
       <Modal

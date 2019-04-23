@@ -7,6 +7,9 @@ import {
   AsyncStorage
 } from "react-native";
 
+// Libs Extenal
+import { Text } from "react-native-elements";
+
 // Internal Component
 import {
   BACKGROUND_HEADER,
@@ -14,9 +17,6 @@ import {
   BUTTON_COLOR_TWO
 } from "../../utils/colors";
 
-import { Text } from "react-native-elements";
-
-// Libs Extenal
 import { Header } from "react-native-elements";
 import CardRanking from "../components/CardRanking";
 import { Loading } from "../components/Loading";
@@ -65,6 +65,7 @@ class Ranking extends React.Component {
     rankPLayer: undefined
   };
 
+  // GET - Classement on User && place himself on the Top of array
   async componentDidMount() {
     const infoUserStr = await AsyncStorage.getItem("infoUser");
     let infoUser = JSON.parse(infoUserStr);
@@ -87,6 +88,7 @@ class Ranking extends React.Component {
       });
   }
 
+  // VIEW - no data
   _noData = () => <Text h4>le Classement est null </Text>;
 
   render() {

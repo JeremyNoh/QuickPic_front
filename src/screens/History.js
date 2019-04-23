@@ -7,18 +7,17 @@ import {
   AsyncStorage
 } from "react-native";
 
-// Internal Component
 import {
   BACKGROUND_HEADER,
   TEXT_HEADER,
   BUTTON_COLOR_TWO
 } from "../../utils/colors";
 
+// Libs Extenal
 import { Text } from "react-native-elements";
 
-// Libs Extenal
+//  Internal Component
 import { Header } from "react-native-elements";
-import CardRanking from "../components/CardRanking";
 import { Loading } from "../components/Loading";
 import { getHistory } from "../../api/game";
 import Container from "../components/Container";
@@ -55,6 +54,7 @@ class Historic extends React.Component {
     historicPLayer: undefined
   };
 
+  // GET - HISTORY PARTY OF THE USER
   async componentDidMount() {
     const infoUserStr = await AsyncStorage.getItem("infoUser");
     let infoUser = JSON.parse(infoUserStr);
@@ -75,6 +75,7 @@ class Historic extends React.Component {
       });
   }
 
+  // VIEW - No data
   _noData = () => {
     return <Text h4>Aucune partie joué </Text>;
   };

@@ -1,5 +1,6 @@
 import { LOGIN, BASE_URL, REGISTER } from "../endpoint";
 
+// POST REGISTER USER
 export const registerUser = user => {
   return new Promise((resolve, reject) => {
     fetch(BASE_URL + REGISTER, {
@@ -30,6 +31,7 @@ export const registerUser = user => {
   });
 };
 
+// POST FOR CONNECT USER
 export const connecteUser = user => {
   return new Promise((resolve, reject) => {
     fetch(BASE_URL + LOGIN, {

@@ -3,6 +3,9 @@ import React from "react";
 import { View, StyleSheet, Text } from "react-native";
 import { Card, ListItem } from "react-native-elements";
 import moment from "moment";
+
+// Card Home for PLay OR not Play
+
 export const CardForPlay = ({ props, onPress, inFuture }) => {
   let titleCard = props.itemLibelle;
   let timeRemaining =

@@ -1,5 +1,6 @@
 import { PROFIL, BASE_URL } from "../endpoint";
 
+// PUT FOR MODIFY USER
 export const PutInfoUser = (userToken, idPlayer, info) => {
   return new Promise((resolve, reject) => {
     fetch(BASE_URL + PROFIL + idPlayer, {
@@ -27,6 +28,7 @@ export const PutInfoUser = (userToken, idPlayer, info) => {
   });
 };
 
+// GET INFO OF SPECIFY USER
 export const getInfoUser = (userToken, idPlayer) => {
   return new Promise((resolve, reject) => {
     fetch(BASE_URL + PROFIL + idPlayer, {

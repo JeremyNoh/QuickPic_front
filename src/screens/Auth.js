@@ -1,4 +1,5 @@
 import React from "react";
+
 import {
   View,
   Text,
@@ -8,16 +9,8 @@ import {
   Alert
 } from "react-native";
 
-// External Component
-
 // Internal Component
-
-import {
-  BACKGROUND_HEADER,
-  TEXT_HEADER,
-  BUTTON_COLOR_ONE,
-  BUTTON_COLOR_TWO
-} from "../../utils/colors";
+import { BUTTON_COLOR_ONE, BUTTON_COLOR_TWO } from "../../utils/colors";
 import Container from "../components/Container";
 import Title from "../components/Title";
 
@@ -39,10 +32,12 @@ class Auth extends React.Component {
 
   componentDidMount() {}
 
+  // SWITCH INTO SIGNIN | SIGNUP
   _updateIndex = selectedIndex => {
     this.setState({ selectedIndex });
   };
 
+  //  UPDATE INFO of User
   updateStateHandler = (key, value) => {
     let { user } = this.state;
 
@@ -52,10 +47,12 @@ class Auth extends React.Component {
     });
   };
 
+  // Navigate to Home
   _submit = () => {
     this.props.navigation.navigate("Home");
   };
 
+  // RECUP champs User and Try to Register
   _register = () => {
     let { user } = this.state;
     registerUser(user)
@@ -68,10 +65,10 @@ class Auth extends React.Component {
       })
       .catch(err => {
         alert("Error please retry");
-        console.log(err, "dedededeede");
       });
   };
 
+  // RECUP champs User and Try to Connect & Stock INfo to Storage
   _connect = async () => {
     let { user } = this.state;
     connecteUser(user)
@@ -94,6 +91,7 @@ class Auth extends React.Component {
       });
   };
 
+  // VIEW - For Connect
   connectionView = () => {
     let { user } = this.state;
     return (
@@ -130,6 +128,7 @@ class Auth extends React.Component {
     );
   };
 
+  // VIEW - For Register
   registerView = () => {
     let { user } = this.state;
     return (
