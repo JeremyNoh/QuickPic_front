@@ -269,7 +269,6 @@ export default class Profile extends React.Component {
           <Button
             style={styles.Button}
             buttonStyle={{
-              width: "100%",
               height: 50
             }}
             title="Modifier Mon compte"

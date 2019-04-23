@@ -51,6 +51,8 @@ class Game extends React.Component {
     let infoUser = JSON.parse(infoUserStr);
 
     const game = this.props.navigation.getParam("game", undefined);
+    console.log(game.itemLibelle);
+
     if (game === undefined) {
       this.setState({ game: null, infoUser });
     } else {
@@ -81,23 +83,35 @@ class Game extends React.Component {
 
   // add score on USER profile API
   _sendScoreToApi = () => {
-    let { infoUser, game } = this.state;
+    let { infoUser, game, matchingImage } = this.state;
 
     this.setModalVisible(false);
-    Alert.alert("tu as gagné XXX point ");
-    // PostScoreInOneGame(infoUser.token, game.idGame, {
-    //   pourcentage: Math.floor(Math.random() * Math.floor(101)),
-    //   uuid: infoUser.uuid
-    // })
-    //   .then(res => {
-    //     console.log(res);
-    //     this.setModalVisible(false);
-    //   })
-    //   .catch(err => {
-    //     this.setModalVisible(false);
-    //     Alert.alert("Error please retry");
-    //     console.log(err);
-    //   });
+
+    let objCorrectly = matchingImage.filter(v =>
+      v.tag.fr.toLowerCase().includes(game.itemLibelle.toLowerCase())
+    );
+    let pourcent = 0;
+    if (objCorrectly.length === 0) {
+    } else {
+      pourcent = Math.round(objCorrectly[0].confidence);
+    }
+
+    console.log(pourcent + "% de correspondance Avec l'objet");
+
+    PostScoreInOneGame(infoUser.token, game.idGame, {
+      pourcentage: pourcent,
+      uuid: infoUser.uuid,
+      time: Math.floor(Math.random() * Math.floor(60))
+    })
+      .then(res => {
+        let score = res.calcul;
+        Alert.alert(`tu as gagné ${score} point `);
+      })
+      .catch(err => {
+        this.setModalVisible(false);
+        Alert.alert("Error please retry");
+        console.log(err);
+      });
   };
 
   // Stock photo on AWS - S3
@@ -143,13 +157,9 @@ class Game extends React.Component {
 
     ReconnaissanceImage(url)
       .then(res => {
-        console.log("res");
-        console.log(res);
         this.setState({ loadingResult: false, matchingImage: res });
       })
       .catch(err => {
-        console.log("error");
-        console.log(err);
         this.setState({ loadingResult: false, matchingImage: null });
       });
   };

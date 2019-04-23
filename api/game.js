@@ -98,7 +98,8 @@ export const PostScoreInOneGame = (userToken, idGame, info) => {
       },
       body: JSON.stringify({
         pourcentage: info.pourcentage,
-        uuid: info.uuid
+        uuid: info.uuid,
+        time: info.time
       })
     })
       .then(response => {
