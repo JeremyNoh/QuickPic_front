@@ -15,6 +15,7 @@ import History from "./src/screens/History";
 import Ranking from "./src/screens/Ranking";
 import Game from "./src/screens/Game";
 import SplashScreen from "./src/screens/SplashScreen";
+import { BACKGROUND_HEADER } from "./utils/colors";
 
 const headerStyle = {
   marginTop: Platform.OS === "android" ? StatusBar.currentHeight : 0
@@ -78,11 +79,24 @@ const SignedIn = createBottomTabNavigator(
       }
     }
   },
-
   {
+    initialRouteName: "Home",
+    tabBarPosition: "bottom",
+    swipeEnabled: false,
+    animationEnabled: false,
     tabBarOptions: {
+      activeTintColor: BACKGROUND_HEADER,
+      inactiveTintColor: "grey",
+      showLabel: true,
       style: {
-        paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0
+        borderTopWidth: 0,
+        paddingTop: 3,
+        paddingBottom: 4,
+        height: 60,
+        shadowColor: "black",
+        shadowOpacity: 0.1,
+        shadowRadius: 20,
+        shadowOffset: { width: 0, height: 0 }
       }
     }
   }
