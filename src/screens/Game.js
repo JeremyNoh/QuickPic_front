@@ -42,8 +42,6 @@ class Game extends React.Component {
 
   // Retrieve info of the game && ask Permission to Camera
   async componentDidMount() {
-    console.log("test");
-
     const { status } = await Permissions.askAsync(Permissions.CAMERA);
     this.setState({ hasCameraPermission: status === "granted" });
 
@@ -51,7 +49,6 @@ class Game extends React.Component {
     let infoUser = JSON.parse(infoUserStr);
 
     const game = this.props.navigation.getParam("game", undefined);
-    console.log(game.itemLibelle);
 
     if (game === undefined) {
       this.setState({ game: null, infoUser });
