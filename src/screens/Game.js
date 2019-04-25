@@ -97,10 +97,27 @@ class Game extends React.Component {
       pourcent = Math.round(objCorrectly[0].confidence);
     }
 
-    console.log(pourcent + "% de correspondance Avec l'objet");
+    // Recupère en minutes le temps restant de la parti
+    let [minutes, second] = moment
+      .utc(
+        moment(
+          moment.unix(game.endGame).format("DD/MM/YYYY HH:mm:ss"),
+          "DD/MM/YYYY HH:mm:ss"
+        ).diff(
+          moment(moment().format("DD/MM/YYYY HH:mm:ss"), "DD/MM/YYYY HH:mm:ss")
+        )
+      )
+      .format("mm:ss")
+      .split(":");
+    minutes = parseInt(minutes);
+
+    console.log(
+      pourcent + "% de correspondance Avec l'objet",
+      "et temps restant de la game  : " + minutes + "min"
+    );
 
     PostScoreInOneGame(infoUser.token, game.idGame, {
-      pourcentage: pourcent,
+      pourcentage: minutes,
       uuid: infoUser.uuid,
       time: Math.floor(Math.random() * Math.floor(60))
     })
