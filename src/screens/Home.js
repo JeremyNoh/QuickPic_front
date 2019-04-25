@@ -14,89 +14,6 @@ import {
 import { getAllGames } from "../../api/game";
 import CardForPlay from "../components/CardForPlay";
 
-const enCours = [
-  {
-    idGame: 1,
-    startGame: "2019-04-16T18:37:59.661Z",
-    endGame: "2019-04-16T19:45:59.661Z",
-    itemLibelle: "velo",
-    categoryLibelle: "SPORT"
-  },
-  {
-    idGame: 2,
-    startGame: "2019-04-16T19:37:59.661Z",
-    endGame: "2019-04-16T19:37:59.661Z",
-    itemLibelle: "sac",
-    categoryLibelle: "SPORT"
-  },
-  {
-    idGame: 3,
-    startGame: "2019-04-16T19:37:59.661Z",
-    endGame: "2019-04-16T19:37:59.661Z",
-    itemLibelle: "chaussure",
-    categoryLibelle: "Vetement"
-  }
-];
-
-const later = [
-  {
-    idGame: 1,
-    startGame: "2019-04-16T19:37:59.661Z",
-    endGame: "2019-04-16T19:37:59.661Z",
-    itemLibelle: "stylo",
-    categoryLibelle: "Quotidien"
-  },
-  {
-    idGame: 2,
-    startGame: "2019-04-16T19:37:59.661Z",
-    endGame: "2019-04-16T19:37:59.661Z",
-    itemLibelle: "verre",
-    categoryLibelle: "Quotidien"
-  },
-  {
-    idGame: 3,
-    startGame: "2019-04-16T19:37:59.661Z",
-    endGame: "2019-04-16T19:37:59.661Z",
-    itemLibelle: "tee-shirt",
-    categoryLibelle: "Vetement"
-  },
-  {
-    idGame: 4,
-    startGame: "2019-04-16T19:37:59.661Z",
-    endGame: "2019-04-16T19:37:59.661Z",
-    itemLibelle: "tee-shirt",
-    categoryLibelle: "Vetement"
-  },
-  {
-    idGame: 5,
-    startGame: "2019-04-16T19:37:59.661Z",
-    endGame: "2019-04-16T19:37:59.661Z",
-    itemLibelle: "tee-shirt",
-    categoryLibelle: "Vetement"
-  },
-  {
-    idGame: 3,
-    startGame: "2019-04-16T19:37:59.661Z",
-    endGame: "2019-04-16T19:37:59.661Z",
-    itemLibelle: "tee-shirt",
-    categoryLibelle: "Vetement"
-  },
-  {
-    idGame: 4,
-    startGame: "2019-04-16T19:37:59.661Z",
-    endGame: "2019-04-16T19:37:59.661Z",
-    itemLibelle: "tee-shirt",
-    categoryLibelle: "Vetement"
-  },
-  {
-    idGame: 5,
-    startGame: "2019-04-16T19:37:59.661Z",
-    endGame: "2019-04-16T19:37:59.661Z",
-    itemLibelle: "tee-shirt",
-    categoryLibelle: "Vetement"
-  }
-];
-
 class Home extends React.Component {
   constructor(props) {
     super(props);
@@ -121,8 +38,11 @@ class Home extends React.Component {
           result = null;
         } else {
           result = res;
-          upcomingGame = res.filter(obj => obj.status === "upcoming");
-          progressGame = res.filter(obj => obj.status === "in progress");
+          let sortTab = res.sort(function(a, b) {
+            return a.idGame - b.idGame;
+          });
+          upcomingGame = sortTab.filter(obj => obj.status === "upcoming");
+          progressGame = sortTab.filter(obj => obj.status === "in progress");
         }
         this.setState({ allGames: result, upcomingGame, progressGame });
       })
@@ -153,8 +73,6 @@ class Home extends React.Component {
 
   render() {
     let { selectedIndex, progressGame, upcomingGame } = this.state;
-    // mock
-    // let fluxGame = selectedIndex === 0 ? enCours : later;
     let fluxGame = selectedIndex === 0 ? progressGame : upcomingGame;
 
     return (

@@ -193,10 +193,6 @@ class Auth extends React.Component {
           disabledStyle={styles.desabled}
           disabledTitleStyle={{ color: "white" }}
         />
-
-        <Text style={{ textDecorationLine: "underline" }}>
-          Mot de Passe oublié
-        </Text>
       </View>
     );
   };

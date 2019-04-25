@@ -7,7 +7,8 @@ import {
   ScrollView,
   Image,
   TouchableOpacity,
-  Alert
+  Alert,
+  ActivityIndicator
 } from "react-native";
 
 // Libs Extenal
@@ -15,6 +16,7 @@ import { Camera, Permissions } from "expo";
 import CountDown from "react-native-countdown-component";
 import { Button, Text, Header, Overlay } from "react-native-elements";
 import { RNS3 } from "react-native-aws3";
+import Toast, { DURATION } from "react-native-easy-toast";
 
 // Internal Component
 import { BUTTON_COLOR_ONE } from "../../utils/colors";
@@ -23,6 +25,7 @@ import Title from "../components/Title";
 import { Loading } from "../components/Loading";
 import { PostScoreInOneGame, ReconnaissanceImage } from "../../api/game";
 import { OPTIONS_AWS } from "../../utils/const";
+import moment from "moment";
 
 class Game extends React.Component {
   constructor(props) {
@@ -37,7 +40,8 @@ class Game extends React.Component {
     imageuri: "",
     url: "",
     loadingResult: false,
-    matchingImage: undefined
+    matchingImage: undefined,
+    score: undefined
   };
 
   // Retrieve info of the game && ask Permission to Camera
@@ -82,7 +86,7 @@ class Game extends React.Component {
   _sendScoreToApi = () => {
     let { infoUser, game, matchingImage } = this.state;
 
-    this.setModalVisible(false);
+    // this.setModalVisible(false);
 
     let objCorrectly = matchingImage.filter(v =>
       v.tag.fr.toLowerCase().includes(game.itemLibelle.toLowerCase())
@@ -102,13 +106,25 @@ class Game extends React.Component {
     })
       .then(res => {
         let score = res.calcul;
-        Alert.alert(`tu as gagné ${score} point `);
+        console.log(`tu as gagné ${score} point `);
+        this._goToScreen(score);
       })
       .catch(err => {
         this.setModalVisible(false);
         Alert.alert("Error please retry");
         console.log(err);
       });
+  };
+
+  _goToScreen = score => {
+    this.setState({ modalVisible: false, score }, () => {
+      this.refs.toast.show(`tu as gagné ${score} point `, 500, () => {
+        // something you want to do at close
+
+        this.props.navigation.navigate("Home");
+      });
+    });
+    //
   };
 
   // Stock photo on AWS - S3
@@ -270,17 +286,19 @@ class Game extends React.Component {
                 </View>
               ) : null}
               <View style={styles.captureButtonView}>
-                <TouchableOpacity
-                  style={styles.cameraButtons}
-                  onPress={this.upload}
-                  disabled={!!!this.state.imageuri}
-                >
-                  <Text
-                    style={{ fontSize: 18, marginBottom: 10, color: "white" }}
+                {!!this.state.imageuri && (
+                  <TouchableOpacity
+                    style={styles.cameraButtons}
+                    onPress={this.upload}
+                    disabled={!!!this.state.imageuri}
                   >
-                    Upload
-                  </Text>
-                </TouchableOpacity>
+                    <Text
+                      style={{ fontSize: 18, marginBottom: 10, color: "white" }}
+                    >
+                      Upload
+                    </Text>
+                  </TouchableOpacity>
+                )}
               </View>
             </View>
           )}
@@ -304,6 +322,7 @@ class Game extends React.Component {
                 marginTop: 10,
                 justifyContent: "center"
               }}
+              disabled={!(this.state.score === undefined)}
               buttonStyle={styles.Button}
             />
           )}
@@ -318,7 +337,9 @@ class Game extends React.Component {
     return (
       <Overlay isVisible={loadingResult}>
         <Container>
-          <Text> Wait We calcul your Image...</Text>
+          <ActivityIndicator size="large" color="#0000ff" />
+
+          <Text style={{ marginTop: 10 }}> Calcule de l'image...</Text>
         </Container>
       </Overlay>
     );
@@ -341,6 +362,25 @@ class Game extends React.Component {
     );
   };
 
+  // transform time remaning in second for the countdown
+  _transformInSecond = () => {
+    let { game } = this.state;
+
+    let [minutes, second] = moment
+      .utc(
+        moment(
+          moment.unix(game.endGame).format("DD/MM/YYYY HH:mm:ss"),
+          "DD/MM/YYYY HH:mm:ss"
+        ).diff(
+          moment(moment().format("DD/MM/YYYY HH:mm:ss"), "DD/MM/YYYY HH:mm:ss")
+        )
+      )
+      .format("mm:ss")
+      .split(":");
+
+    return parseInt(minutes) * 60 + parseInt(second);
+  };
+
   render() {
     let { game } = this.state;
 
@@ -349,6 +389,8 @@ class Game extends React.Component {
     } else if (game === null) {
       return <Container>{this._noData()}</Container>;
     }
+
+    let timeInSecond = this._transformInSecond();
     return (
       <View style={{ paddingBottom: "7%" }}>
         <Header
@@ -363,22 +405,13 @@ class Game extends React.Component {
             style: { color: "#fff" }
           }}
         />
-        <Button
-          onPress={() => {
-            this.props.navigation.navigate("Home");
-          }}
-          title="Retour"
-          containerStyle={{
-            marginHorizontal: 10,
-            marginTop: 40
-          }}
-          buttonStyle={{ backgroundColor: "#042867" }}
-        />
+        <Toast ref="toast" />
+
         <View style={{ marginTop: "30%", alignItems: "center" }}>
           <Title title={game.itemLibelle.toUpperCase()} />
           <CountDown
-            until={220}
-            onFinish={() => alert("finished")}
+            until={timeInSecond}
+            onFinish={() => this.props.navigation.navigate("Home")}
             digitStyle={{ backgroundColor: "#2062D5", marginTop: 100 }}
             size={30}
           />
@@ -392,6 +425,7 @@ class Game extends React.Component {
               marginTop: 40,
               height: 100
             }}
+            disabled={!(this.state.score === undefined)}
             buttonStyle={{ backgroundColor: "#042867" }}
           />
 

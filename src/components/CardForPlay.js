@@ -9,27 +9,34 @@ import moment from "moment";
 export const CardForPlay = ({ props, onPress, inFuture }) => {
   let titleCard = props.itemLibelle;
   let timeRemaining =
-    moment.utc(moment(props.endGame).diff(moment(moment()))).format("HH:mm") +
-    "min Restante";
+    moment
+      .utc(
+        moment(
+          moment.unix(props.endGame).format("DD/MM/YYYY HH:mm:ss"),
+          "DD/MM/YYYY HH:mm:ss"
+        ).diff(
+          moment(moment().format("DD/MM/YYYY HH:mm:ss"), "DD/MM/YYYY HH:mm:ss")
+        )
+      )
+      .format("mm:ss") + " min restante";
   if (inFuture) {
     timeRemaining =
       "commence dans :  " +
       moment
-        .utc(moment(props.startGame).diff(moment(moment())))
-        .format("HH:mm");
+        .utc(
+          moment(
+            moment.unix(props.startGame).format("DD/MM/YYYY HH:mm:ss"),
+            "DD/MM/YYYY HH:mm:ss"
+          ).diff(
+            moment(
+              moment().format("DD/MM/YYYY HH:mm:ss"),
+              "DD/MM/YYYY HH:mm:ss"
+            )
+          )
+        )
+        .format("mm:ss");
+
     titleCard = "à venir";
-
-    // test
-    // if (props.categoryLibelle === "Sport") {
-    //   // console.log(props.startGame);
-    //   // console.log(moment(props.startGame).format("MMMM Do YYYY, h:mm:ss a"));
-    //   console.log(moment.unix(props.startGame).format("YYYY-MM-DD HH:mm"));
-    //   console.log(moment().unix());
-    //   console.log(new Date());
-
-    //   // console.log(moment(1555879230).format("DD/MM/YYYY"));
-    // }
-    // finTest
   }
 
   return (

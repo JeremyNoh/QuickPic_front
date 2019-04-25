@@ -23,29 +23,6 @@ import { getHistory } from "../../api/game";
 import Container from "../components/Container";
 import { CardHistory } from "../components/CardHistory";
 
-const HistoricPLayer = [
-  {
-    categoryLibelle: "SPORT",
-    itemLibelle: "ballon",
-    score: 100
-  },
-  {
-    categoryLibelle: "SPORT",
-    itemLibelle: "Chaussure",
-    score: 10
-  },
-  {
-    categoryLibelle: "Quotidien",
-    itemLibelle: "Tee-shirt",
-    score: 0
-  },
-  {
-    categoryLibelle: "Technologie",
-    itemLibelle: "ecran",
-    score: 20
-  }
-];
-
 class Historic extends React.Component {
   constructor(props) {
     super(props);
