@@ -8,7 +8,8 @@ import {
   Image,
   TouchableOpacity,
   Alert,
-  ActivityIndicator
+  ActivityIndicator,
+  Dimensions
 } from "react-native";
 
 // Libs Extenal
@@ -19,7 +20,7 @@ import { RNS3 } from "react-native-aws3";
 import Toast, { DURATION } from "react-native-easy-toast";
 
 // Internal Component
-import { BUTTON_COLOR_ONE } from "../../utils/colors";
+import { BACKGROUND_BODY, COLOR_TEXT } from "../../utils/colors";
 import Container from "../components/Container";
 import Title from "../components/Title";
 import { Loading } from "../components/Loading";
@@ -334,13 +335,15 @@ class Game extends React.Component {
               onPress={() => {
                 this._sendScoreToApi();
               }}
+              buttonStyle={styles.Button}
               title="Valider mon choix"
+              disabled={!(this.state.score === undefined)}
               containerStyle={{
                 marginTop: 10,
                 justifyContent: "center"
               }}
-              disabled={!(this.state.score === undefined)}
-              buttonStyle={styles.Button}
+              disabledStyle={styles.desabled}
+              disabledTitleStyle={{ color: COLOR_TEXT }}
             />
           )}
         </View>
@@ -409,41 +412,50 @@ class Game extends React.Component {
 
     let timeInSecond = this._transformInSecond();
     return (
-      <View style={{ paddingBottom: "7%" }}>
+      <View style={[{ paddingBottom: "7%" }, styles.bg]}>
         <Header
-          backgroundColor="#042867"
+          backgroundColor={BACKGROUND_BODY}
+          centerComponent={{
+            text: `Partie n° ${game.idGame}`,
+            style: { color: "#fff", fontWeight: "bold", fontSize: 20 }
+          }}
           leftComponent={{
             icon: "home",
             color: "#fff",
             onPress: () => this.props.navigation.navigate("Home")
           }}
-          centerComponent={{
-            text: `Partie n° ${game.idGame}`,
-            style: { color: "#fff" }
-          }}
         />
         <Toast ref="toast" />
 
         <View style={{ marginTop: "30%", alignItems: "center" }}>
-          <Title title={game.itemLibelle.toUpperCase()} />
+          <Title
+            title={game.itemLibelle.toUpperCase()}
+            style={{ color: COLOR_TEXT }}
+          />
           <CountDown
             until={timeInSecond}
             onFinish={() => this.props.navigation.navigate("Home")}
-            digitStyle={{ backgroundColor: "#2062D5", marginTop: 100 }}
+            digitStyle={{ backgroundColor: COLOR_TEXT, marginTop: 100 }}
             size={30}
+            timeToShow={["H", "M", "S"]}
           />
           <Button
             onPress={() => {
               this.setModalVisible(true);
             }}
-            title="Prendre En Photo"
+            title="Prendre en Photo l'objet"
             containerStyle={{
               marginHorizontal: 10,
-              marginTop: 40,
+              marginTop: 60,
               height: 100
             }}
             disabled={!(this.state.score === undefined)}
-            buttonStyle={{ backgroundColor: "#042867" }}
+            buttonStyle={{
+              height: 50,
+              backgroundColor: COLOR_TEXT,
+              marginBottom: 10,
+              borderRadius: 50
+            }}
           />
 
           {this.modalView()}
@@ -458,18 +470,16 @@ class Game extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#7886D7",
+    backgroundColor: BACKGROUND_BODY,
     alignItems: "center",
     justifyContent: "center"
   },
-  switchview: {
-    marginTop: 50,
-    backgroundColor: "white",
-    padding: 10,
-    alignItems: "center",
-    borderRadius: 5,
-    marginBottom: 5
+  bg: {
+    width: Dimensions.get("window").width,
+    height: Dimensions.get("window").height,
+    backgroundColor: BACKGROUND_BODY
   },
+
   switch: {
     padding: 5
   },
@@ -514,11 +524,13 @@ const styles = StyleSheet.create({
     width: "90%",
     padding: 10
   },
+
   Button: {
-    backgroundColor: BUTTON_COLOR_ONE,
+    height: 50,
+    backgroundColor: COLOR_TEXT,
     marginBottom: 10,
     marginTop: 10,
-    width: "100%"
+    borderRadius: 50
   }
 });
 

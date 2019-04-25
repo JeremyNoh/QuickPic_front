@@ -7,11 +7,7 @@ import {
   AsyncStorage
 } from "react-native";
 
-import {
-  BACKGROUND_HEADER,
-  TEXT_HEADER,
-  BUTTON_COLOR_TWO
-} from "../../utils/colors";
+import { BACKGROUND_BODY } from "../../utils/colors";
 
 // Libs Extenal
 import { Text } from "react-native-elements";
@@ -87,12 +83,12 @@ class Historic extends React.Component {
     }
 
     return (
-      <View style={{ paddingBottom: "10%" }}>
+      <View style={[{ paddingBottom: "10%" }, styles.bg]}>
         <Header
-          backgroundColor="#042867"
+          backgroundColor={BACKGROUND_BODY}
           centerComponent={{
-            text: `Historique Partie`,
-            style: { color: "#fff", fontWeight: "bold" }
+            text: `Historique`,
+            style: { color: "#fff", fontWeight: "bold", fontSize: 20 }
           }}
         />
         <ScrollView style={{ height: "100%" }}>
@@ -105,6 +101,10 @@ class Historic extends React.Component {
   }
 }
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  bg: {
+    backgroundColor: BACKGROUND_BODY
+  }
+});
 
 export default Historic;

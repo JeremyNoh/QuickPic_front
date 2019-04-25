@@ -6,11 +6,7 @@ import { ButtonGroup, Header } from "react-native-elements";
 import { ScrollView } from "react-native-gesture-handler";
 
 // Internal Component
-import {
-  BACKGROUND_HEADER,
-  TEXT_HEADER,
-  BUTTON_COLOR_TWO
-} from "../../utils/colors";
+import { BACKGROUND_BODY, COLOR_TEXT } from "../../utils/colors";
 import { getAllGames } from "../../api/game";
 import CardForPlay from "../components/CardForPlay";
 
@@ -76,15 +72,15 @@ class Home extends React.Component {
     let fluxGame = selectedIndex === 0 ? progressGame : upcomingGame;
 
     return (
-      <View style={{ paddingBottom: "15%" }}>
+      <View style={[{ paddingBottom: "15%" }, styles.bg]}>
         <Header
-          backgroundColor="#042867"
+          backgroundColor={BACKGROUND_BODY}
           centerComponent={{
             text: `Home`,
-            style: { color: "#fff", fontWeight: "bold" }
+            style: { color: "#fff", fontWeight: "bold", fontSize: 20 }
           }}
           rightComponent={{
-            icon: "power",
+            icon: "people",
             color: "#fff",
             onPress: () => {
               this.props.navigation.navigate("SignedOut"), AsyncStorage.clear();
@@ -97,13 +93,19 @@ class Home extends React.Component {
             selectedIndex={selectedIndex}
             buttons={["En cours", "Prochainement"]}
             containerStyle={{
+              marginTop: 30,
+              justifyContent: "center",
               height: 30,
               width: 300,
-              marginTop: 30,
-              justifyContent: "center"
+              borderRadius: 20,
+              backgroundColor: BACKGROUND_BODY,
+              borderColor: COLOR_TEXT
             }}
             selectedButtonStyle={{
-              backgroundColor: BUTTON_COLOR_TWO
+              backgroundColor: COLOR_TEXT
+            }}
+            selectedTextStyle={{
+              color: BACKGROUND_BODY
             }}
           />
         </View>
@@ -113,7 +115,11 @@ class Home extends React.Component {
               <CardForPlay
                 key={index}
                 props={element}
-                onPress={() => this.SelectGame(element)}
+                onPress={() =>
+                  selectedIndex === 0
+                    ? this.SelectGame(element)
+                    : this.SelectNotYetGame()
+                }
                 inFuture={selectedIndex === 0 ? false : true}
               />
             );
@@ -124,18 +130,10 @@ class Home extends React.Component {
   }
 }
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  bg: {
+    backgroundColor: BACKGROUND_BODY
+  }
+});
 
 export default Home;
-
-// for not press the button if Not in Progress Game
-/* <CardForPlay
-                key={index}
-                props={element}
-                onPress={() =>
-                  selectedIndex === 0
-                    ? this.SelectGame(element)
-                    : this.SelectNotYetGame()
-                }
-                inFuture={selectedIndex === 0 ? false : true}
-              /> */

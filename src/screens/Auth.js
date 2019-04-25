@@ -10,7 +10,11 @@ import {
 } from "react-native";
 
 // Internal Component
-import { BUTTON_COLOR_ONE, BUTTON_COLOR_TWO } from "../../utils/colors";
+import {
+  BUTTON_COLOR_ONE,
+  BUTTON_COLOR_TWO,
+  BACKGROUND_BODY
+} from "../../utils/colors";
 import Container from "../components/Container";
 import Title from "../components/Title";
 
@@ -18,6 +22,8 @@ import Title from "../components/Title";
 import { Button, ButtonGroup } from "react-native-elements";
 
 import { connecteUser, registerUser } from "../../api/auth";
+
+const COLOR_TEXT = "#fbc531";
 
 class Auth extends React.Component {
   state = {
@@ -104,9 +110,10 @@ class Auth extends React.Component {
     let { user } = this.state;
 
     return (
-      <View style={{ marginTop: 20 }}>
+      <View style={{ marginTop: 200 }}>
         <TextInput
           style={styles.TextInput}
+          placeholderTextColor={COLOR_TEXT}
           value={user.username}
           placeholder="Username"
           autoCapitalize="none"
@@ -115,6 +122,7 @@ class Auth extends React.Component {
         />
         <TextInput
           style={styles.TextInput}
+          placeholderTextColor={COLOR_TEXT}
           value={user.password}
           placeholder="Password"
           autoCapitalize="none"
@@ -129,13 +137,13 @@ class Auth extends React.Component {
           buttonStyle={styles.Button}
           disabled={!(user.username.length >= 6 && user.password.length >= 6)}
           disabledStyle={styles.desabled}
-          disabledTitleStyle={{ color: "white" }}
+          disabledTitleStyle={{ color: COLOR_TEXT }}
           title="Se connecter"
         />
-
+        {/* 
         <Text style={{ textDecorationLine: "underline" }}>
           Mot de Passe oublié
-        </Text>
+        </Text> */}
       </View>
     );
   };
@@ -144,9 +152,10 @@ class Auth extends React.Component {
   registerView = () => {
     let { user } = this.state;
     return (
-      <View>
+      <View style={{ marginTop: 200 }}>
         <TextInput
           style={styles.TextInput}
+          placeholderTextColor={COLOR_TEXT}
           value={user.email}
           placeholder="Email"
           autoCapitalize="none"
@@ -155,6 +164,7 @@ class Auth extends React.Component {
         />
         <TextInput
           style={styles.TextInput}
+          placeholderTextColor={COLOR_TEXT}
           value={user.username}
           placeholder="Username"
           autoCapitalize="none"
@@ -163,6 +173,7 @@ class Auth extends React.Component {
         />
         <TextInput
           style={styles.TextInput}
+          placeholderTextColor={COLOR_TEXT}
           value={user.password}
           placeholder="Password"
           secureTextEntry={true}
@@ -170,6 +181,7 @@ class Auth extends React.Component {
         />
         <TextInput
           style={styles.TextInput}
+          placeholderTextColor={COLOR_TEXT}
           value={user.confirmPassword}
           placeholder="Confirmer le password"
           secureTextEntry={false}
@@ -191,7 +203,7 @@ class Auth extends React.Component {
             )
           }
           disabledStyle={styles.desabled}
-          disabledTitleStyle={{ color: "white" }}
+          disabledTitleStyle={{ color: COLOR_TEXT }}
         />
       </View>
     );
@@ -203,7 +215,9 @@ class Auth extends React.Component {
     return (
       <Container>
         <View style={{ position: "absolute", top: 70, alignItems: "center" }}>
-          <Title title="QuickPic" />
+          <View style={{ transform: [{ rotate: "-10deg" }] }}>
+            <Title title="QuickPic" />
+          </View>
           <ButtonGroup
             onPress={this._updateIndex}
             selectedIndex={selectedIndex}
@@ -211,10 +225,18 @@ class Auth extends React.Component {
             containerStyle={{
               height: 30,
               width: 300,
-              marginTop: 30
+              marginTop: 100,
+              borderRadius: 20,
+              backgroundColor: BACKGROUND_BODY,
+              borderColor: COLOR_TEXT
             }}
-            selectedButtonStyle={{
-              backgroundColor: BUTTON_COLOR_TWO
+            selectedButtonStyle={[
+              {
+                backgroundColor: COLOR_TEXT
+              }
+            ]}
+            selectedTextStyle={{
+              color: BACKGROUND_BODY
             }}
           />
         </View>
@@ -231,17 +253,23 @@ const styles = StyleSheet.create({
     height: 40,
     marginVertical: 10,
     borderBottomWidth: 0.5,
-    borderBottomColor: "#d6d7da",
-    color: "black",
+    borderBottomColor: COLOR_TEXT,
+    color: "white",
     width: 300
   },
   Button: {
-    backgroundColor: BUTTON_COLOR_ONE,
+    height: 50,
+    backgroundColor: COLOR_TEXT,
     marginBottom: 10,
-    marginTop: 10
+    marginTop: 90,
+    borderRadius: 50
   },
   desabled: {
-    backgroundColor: "#787879"
+    height: 50,
+    backgroundColor: BACKGROUND_BODY,
+    borderWidth: 1,
+    borderColor: COLOR_TEXT,
+    borderRadius: 50
   }
 });
 

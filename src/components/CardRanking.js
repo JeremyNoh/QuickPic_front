@@ -44,8 +44,8 @@ export const CardRanking = ({ props, itMe }) => {
           containerStyle={[
             {
               borderRadius: 10,
-
-              borderWidth: 1,
+              backgroundColor: "grey",
+              borderWidth: 3,
               borderColor: itMe ? "green" : "#d6d7da"
             }
           ]}

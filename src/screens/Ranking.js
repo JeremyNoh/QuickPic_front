@@ -11,11 +11,7 @@ import {
 import { Text } from "react-native-elements";
 
 // Internal Component
-import {
-  BACKGROUND_HEADER,
-  TEXT_HEADER,
-  BUTTON_COLOR_TWO
-} from "../../utils/colors";
+import { BACKGROUND_BODY } from "../../utils/colors";
 
 import { Header } from "react-native-elements";
 import CardRanking from "../components/CardRanking";
@@ -123,12 +119,12 @@ class Ranking extends React.Component {
     }
 
     return (
-      <View style={{ paddingBottom: "10%" }}>
+      <View style={[{ paddingBottom: "10%" }, styles.bg]}>
         <Header
-          backgroundColor="#042867"
+          backgroundColor={BACKGROUND_BODY}
           centerComponent={{
             text: `Classement Mondial`,
-            style: { color: "#fff", fontWeight: "bold" }
+            style: { color: "#fff", fontWeight: "bold", fontSize: 20 }
           }}
         />
         <ScrollView style={{ height: "100%" }}>
@@ -147,6 +143,10 @@ class Ranking extends React.Component {
   }
 }
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  bg: {
+    backgroundColor: BACKGROUND_BODY
+  }
+});
 
 export default Ranking;

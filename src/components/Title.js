@@ -4,7 +4,7 @@ import { Text, StyleSheet } from "react-native";
 
 export const Title = props => {
   return (
-    <Text {...props} style={styles.text}>
+    <Text {...props} style={[styles.text, props.style]}>
       {props.title}
     </Text>
   );
@@ -13,7 +13,10 @@ export const Title = props => {
 const styles = StyleSheet.create({
   text: {
     fontWeight: "bold",
-    fontSize: 25
+    fontSize: 40,
+    // shadowOffset: { width: 1, height: 5 },
+    shadowColor: "#FF5981"
+    // shadowOpacity: 1
   }
 });
 

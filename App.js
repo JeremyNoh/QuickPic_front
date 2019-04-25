@@ -1,3 +1,5 @@
+console.disableYellowBox = true;
+
 import React from "react";
 import { Platform, StatusBar, AsyncStorage } from "react-native";
 import {
@@ -15,10 +17,22 @@ import History from "./src/screens/History";
 import Ranking from "./src/screens/Ranking";
 import Game from "./src/screens/Game";
 import SplashScreen from "./src/screens/SplashScreen";
-import { BACKGROUND_HEADER } from "./utils/colors";
+import { BACKGROUND_BODY } from "./utils/colors";
 
 const headerStyle = {
   marginTop: Platform.OS === "android" ? StatusBar.currentHeight : 0
+};
+
+// HeaderStyle For Custom
+const headerStyles = {
+  headerTintColor: "white",
+  headerStyle: {
+    borderBottomWidth: 0,
+    backgroundColor: BACKGROUND_BODY,
+    color: "#fff",
+    fontWeight: "bold",
+    fontSize: 20
+  }
 };
 
 // Navigator for Screen on SIgned Out
@@ -26,8 +40,8 @@ const SignedOut = createStackNavigator({
   Auth: {
     screen: Auth,
     navigationOptions: {
-      title: "Sign In",
-      headerStyle
+      title: "Welcome",
+      ...headerStyles
     }
   }
 });
@@ -85,7 +99,7 @@ const SignedIn = createBottomTabNavigator(
     swipeEnabled: false,
     animationEnabled: false,
     tabBarOptions: {
-      activeTintColor: BACKGROUND_HEADER,
+      activeTintColor: "#487eb0",
       inactiveTintColor: "grey",
       showLabel: true,
       style: {
@@ -96,6 +110,7 @@ const SignedIn = createBottomTabNavigator(
         shadowColor: "black",
         shadowOpacity: 0.1,
         shadowRadius: 20,
+        backgroundColor: "#40454D",
         shadowOffset: { width: 0, height: 0 }
       }
     }

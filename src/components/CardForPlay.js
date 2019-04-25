@@ -62,7 +62,7 @@ export const CardForPlay = ({ props, onPress, inFuture }) => {
           tension={100}
           activeScale={0.95}
           linearGradientProps={{
-            colors: ["#2062D5", "#042867"],
+            colors: ["#8c7ae6", "#487eb0"],
             start: [1, 0],
             end: [0.2, 0]
           }}

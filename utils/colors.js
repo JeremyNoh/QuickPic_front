@@ -1,5 +1,5 @@
 // BODY COLORS
-export const BACKGROUND_BODY = "#fff";
+export const BACKGROUND_BODY = "#282F3A";
 
 // color Font
 export const TEXT_INITIAL = "black";
@@ -16,3 +16,5 @@ export const BUTTON_COLOR_THREE = "#8aa0ae";
 // Header Colors
 export const BACKGROUND_HEADER = BUTTON_COLOR_ONE;
 export const TEXT_HEADER = "white";
+
+export const COLOR_TEXT = "#fbc531";
