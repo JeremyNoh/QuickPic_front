@@ -64,8 +64,8 @@ class Auth extends React.Component {
     registerUser(user)
       .then(res => {
         Alert.alert(
-          "Inscription Réussi",
-          "Je t'invite à te connecter Pour Commencer à Jouer",
+          "Inscription réussi",
+          "Je t'invite à te connecter pour commencer à jouer",
           [{ text: "OK" }]
         );
       })

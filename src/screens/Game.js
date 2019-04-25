@@ -359,7 +359,10 @@ class Game extends React.Component {
         <Container>
           <ActivityIndicator size="large" color="#0000ff" />
 
-          <Text style={{ marginTop: 10 }}> Calcule de l'image...</Text>
+          <Text style={{ marginTop: 10, color: COLOR_TEXT }}>
+            {" "}
+            Calcul de l'image...
+          </Text>
         </Container>
       </Overlay>
     );
@@ -438,6 +441,7 @@ class Game extends React.Component {
             digitStyle={{ backgroundColor: COLOR_TEXT, marginTop: 100 }}
             size={30}
             timeToShow={["H", "M", "S"]}
+            timeLabels={{ h: "Heure", m: "Minutes", s: "Secondes" }}
           />
           <Button
             onPress={() => {

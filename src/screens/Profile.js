@@ -288,8 +288,6 @@ export default class Profile extends React.Component {
               onPress={() => this.setState({ editable: true })}
               buttonStyle={styles.Button}
               title="Modifier Mon compte"
-              disabledStyle={styles.desabled}
-              disabledTitleStyle={{ color: COLOR_TEXT }}
             />
           )}
         </View>

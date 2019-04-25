@@ -8,6 +8,8 @@ import moment from "moment";
 
 export const CardForPlay = ({ props, onPress, inFuture }) => {
   let titleCard = props.itemLibelle;
+  // console.log(props.categoryLibelle, props.itemLibelle, props.idGame);
+
   let timeRemaining =
     moment
       .utc(
