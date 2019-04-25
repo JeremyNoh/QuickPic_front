@@ -117,9 +117,9 @@ class Game extends React.Component {
     );
 
     PostScoreInOneGame(infoUser.token, game.idGame, {
-      pourcentage: minutes,
+      pourcentage: pourcent,
       uuid: infoUser.uuid,
-      time: Math.floor(Math.random() * Math.floor(60))
+      time: minutes
     })
       .then(res => {
         let score = res.calcul;
