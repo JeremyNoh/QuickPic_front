@@ -29,8 +29,8 @@ export const CardHistory = ({ props }) => {
           // title={"deddedede"}
           title={
             <View style={styles.subtitleView}>
-              <Text style={styles.text}>{props.categoryLibelle}</Text>
-              <Text style={styles.title}>{props.itemLibelle}</Text>
+              <Text style={styles.text}>{props.categorylibelle}</Text>
+              <Text style={styles.title}>{props.itemlibelle}</Text>
               <Text style={[styles.text, { fontWeight: "bold" }]}>
                 + {props.score} points
               </Text>

@@ -181,6 +181,11 @@ export default class Profile extends React.Component {
     }
   }
 
+  // set
+  _canModify = () => {
+    this.setState({ editable: true });
+  };
+
   render() {
     let { user, infoUser, editable } = this.state;
     if (!infoUser) {
@@ -285,7 +290,7 @@ export default class Profile extends React.Component {
 
           {!editable && (
             <Button
-              onPress={() => this.setState({ editable: true })}
+              onPress={() => this._canModify()}
               buttonStyle={styles.Button}
               title="Modifier Mon compte"
             />

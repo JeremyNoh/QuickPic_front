@@ -23,6 +23,9 @@ import { Button, ButtonGroup } from "react-native-elements";
 
 import { connecteUser, registerUser } from "../../api/auth";
 
+import { Font } from "expo";
+import { Loading } from "../components/Loading";
+
 const COLOR_TEXT = "#fbc531";
 
 class Auth extends React.Component {
@@ -33,10 +36,23 @@ class Auth extends React.Component {
       password: "",
       confirmPassword: ""
     },
+    fontLoaded: false,
     selectedIndex: 0
   };
 
-  componentDidMount() {}
+  componentDidMount() {
+    // Font.loadAsync({
+    //   "Permanent-Marker": require("../../utils/PermanentMarker-Regular.ttf")
+    // });
+  }
+
+  async componentDidMount() {
+    await Font.loadAsync({
+      "Permanent-Marker": require("../../utils/PermanentMarker-Regular.ttf")
+    });
+
+    this.setState({ fontLoaded: true });
+  }
 
   // SWITCH INTO SIGNIN | SIGNUP
   _updateIndex = selectedIndex => {
@@ -210,13 +226,30 @@ class Auth extends React.Component {
   };
 
   render() {
-    let { selectedIndex } = this.state;
+    let { selectedIndex, fontLoaded } = this.state;
+
+    if (!fontLoaded) {
+      return <Loading />;
+    }
 
     return (
       <Container>
         <View style={{ position: "absolute", top: 70, alignItems: "center" }}>
-          <View style={{ transform: [{ rotate: "-10deg" }] }}>
-            <Title title="QuickPic" />
+          <View
+            style={{
+              transform: [{ rotate: "-10deg" }],
+              backgroundColor: COLOR_TEXT,
+              paddingHorizontal: 10,
+              borderBottomColor: "#FF5981",
+              borderBottomWidth: 5,
+              borderRightColor: "#FF5981",
+              borderRightWidth: 5
+            }}
+          >
+            <Title
+              title="QuickPic"
+              style={{ fontFamily: "Permanent-Marker" }}
+            />
           </View>
           <ButtonGroup
             onPress={this._updateIndex}

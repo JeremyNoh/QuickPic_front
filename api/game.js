@@ -60,9 +60,9 @@ export const getHistory = (userId, userToken) => {
 };
 
 // GET ALL GAME
-export const getAllGames = userToken => {
+export const getAllGames = (userToken, userId) => {
   return new Promise((resolve, reject) => {
-    fetch(BASE_URL + GAMES, {
+    fetch(BASE_URL + GAMES + userId, {
       method: "GET",
       headers: {
         Accept: "application/json",

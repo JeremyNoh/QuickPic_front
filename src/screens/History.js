@@ -38,7 +38,7 @@ class Historic extends React.Component {
         if (res.hasOwnProperty("msg")) {
           result = null;
         } else {
-          result = res;
+          result = res[0];
         }
         this.setState({ historicPLayer: result });
       })
@@ -57,7 +57,7 @@ class Historic extends React.Component {
             if (res.hasOwnProperty("msg")) {
               result = null;
             } else {
-              result = res;
+              result = res[0];
             }
             this.setState({ historicPLayer: result });
           })

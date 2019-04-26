@@ -25,7 +25,7 @@ class Home extends React.Component {
   async componentDidMount() {
     const infoUserStr = await AsyncStorage.getItem("infoUser");
     let infoUser = JSON.parse(infoUserStr);
-    getAllGames(infoUser.token)
+    getAllGames(infoUser.token, infoUser.uuid)
       .then(res => {
         let result = null;
         let progressGame = null;
@@ -43,6 +43,8 @@ class Home extends React.Component {
         this.setState({ allGames: result, upcomingGame, progressGame });
       })
       .catch(err => {
+        console.log("dede");
+
         console.log(err);
         this.setState({ allGames: null });
       });
