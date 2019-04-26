@@ -7,7 +7,8 @@ import {
   AsyncStorage,
   Alert,
   Dimensions,
-  TextInput
+  TextInput,
+  TouchableOpacity
 } from "react-native";
 
 // Libs Extenal
@@ -271,30 +272,31 @@ export default class Profile extends React.Component {
                 alignContent: "flex-end"
               }}
             />
+            {editable && (
+              <Button
+                onPress={() => this._updateUser()}
+                buttonStyle={styles.Button}
+                title="Enregistrer"
+                disabled={
+                  !(
+                    user.nickname.length >= 6 && this._validateEmail(user.email)
+                  )
+                }
+                disabledStyle={styles.desabled}
+                disabledTitleStyle={{ color: COLOR_TEXT }}
+              />
+            )}
+            {!editable && (
+              <TouchableOpacity
+                style={styles.ButtonToucha}
+                onPress={() => this._canModify()}
+              >
+                <Text style={{ color: "white", justifyContent: "center" }}>
+                  Modifier Mon compte
+                </Text>
+              </TouchableOpacity>
+            )}
           </View>
-
-          <Text>{this.state.email}</Text>
-
-          {editable && (
-            <Button
-              onPress={() => this._updateUser()}
-              buttonStyle={styles.Button}
-              title="Enregistrer"
-              disabled={
-                !(user.nickname.length >= 6 && this._validateEmail(user.email))
-              }
-              disabledStyle={styles.desabled}
-              disabledTitleStyle={{ color: COLOR_TEXT }}
-            />
-          )}
-
-          {!editable && (
-            <Button
-              onPress={() => this._canModify()}
-              buttonStyle={styles.Button}
-              title="Modifier Mon compte"
-            />
-          )}
         </View>
       </View>
     );
@@ -336,6 +338,15 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     marginTop: 80,
     borderRadius: 50
+  },
+  ButtonToucha: {
+    height: 50,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: COLOR_TEXT,
+    marginTop: 80,
+    borderRadius: 50,
+    paddingHorizontal: 10
   },
   desabled: {
     height: 50,
